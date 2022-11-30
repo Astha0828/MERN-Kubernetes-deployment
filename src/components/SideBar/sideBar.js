@@ -36,25 +36,21 @@ const menuItems = [
     path: "/users",
   },
   {
-    name: "Product",
+    name: "Batches",
     icon: <ShoppingCartIcon />,
-    path: "/product",
+    path: "/batches",
   },
   {
-    name: "Blog",
+    name: "Assessments",
     icon: <BookIcon />,
-    path: "/blog",
+    path: "/assessment",
   },
-  {
-    name: <Link to="/login" style={{textDecoration:"none",color:"black"}}>Login</Link>,
-    icon: <LockOpenIcon />,
-    path: "/login",
-  },
-  {
-    name: "Not Found",
-    icon: <DoNotDisturbAltIcon />,
-    path: "/404",
-  },
+  // {
+  //   name: <Link to="/login" style={{textDecoration:"none",color:"black"}}>Login</Link>,
+  //   icon: <LockOpenIcon />,
+  //   path: "/login",
+  // },
+
 ];
 const sideBar = () => {
   return (
@@ -88,7 +84,7 @@ const sideBar = () => {
           variant='h6'
           sx={{ ml: "16px", fontSize: "0.875rem", fontWeight: "600" }}
         >
-          Suprabha
+          Admin
         </Typography>
       </Box>
 
@@ -109,30 +105,7 @@ const sideBar = () => {
       </List>
 
       {/* Upgrade */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Avatar
-          alt='User'
-          src={userImage}
-          sx={{ width: "80px", height: "80px", mt: 5, mb: 2 }}
-        />
-        <Typography variant='h6' gutterBottom>
-          Get more?
-        </Typography>
-        <Typography gutterBottom>From only $69</Typography>
-
-        <Button
-          variant='contained'
-          sx={{ textTransform: "none", fontWeight: "700", mt: 2 }}
-        >
-          Upgrade to Pro
-        </Button>
-      </Box>
+     
     </Box>
   );
 };

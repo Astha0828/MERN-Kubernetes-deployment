@@ -2,9 +2,8 @@ import { Card, CardContent, Typography, Container, Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
-import AppleIcon from "@mui/icons-material/Apple";
+import WorkspacesIcon from '@mui/icons-material/Workspaces';
 import WindowIcon from "@mui/icons-material/Window";
-import AdbIcon from "@mui/icons-material/Adb";
 import BugReportIcon from "@mui/icons-material/BugReport";
 import { getDashboardData } from "../../api/queries";
 import WebsiteVisit from "./websiteVisit";
@@ -15,7 +14,9 @@ import NewsUpdate from "./newsUpdate";
 import Tasks from "./tasks";
 import TrafficBySite from "./trafficBySite";
 import OrderTimeline from "./orderTimeline";
-
+import GroupIcon from '@mui/icons-material/Group';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import FlagIcon from '@mui/icons-material/Flag';
 const AdminDashboard = () => {
   const [dashBoardData, setDashboardData] = useState([]);
 
@@ -28,17 +29,17 @@ const AdminDashboard = () => {
   function getIcon(type) {
     let icon;
     switch (type) {
-      case "Weekly Sales":
-        icon = <AdbIcon />;
+      case "Batches":
+        icon = <WorkspacesIcon />;
         break;
-      case "New Users":
-        icon = <AppleIcon />;
+      case "UserInfo":
+        icon = <GroupIcon />;
         break;
-      case "Item Orders":
-        icon = <WindowIcon />;
+      case "AssignmentReport":
+        icon = <AssessmentIcon />;
         break;
-      case "Bug Reports":
-        icon = <AdbIcon />;
+      case "TicketReports":
+        icon = <FlagIcon />;
         break;
       default:
         icon = <BugReportIcon />;

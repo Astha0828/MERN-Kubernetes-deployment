@@ -3,23 +3,23 @@ import { faker } from "@faker-js/faker";
 
 const dashBoardInfo = [
   {
-    name: "Weekly Sales",
-    value: "714k",
+    name: "Batches",
+    value: "8",
     color: "rgb(209, 233, 252)",
   },
   {
-    name: "New Users",
-    value: "1.35m",
+    name: "UserInfo",
+    value: "50+",
     color: "rgb(208, 242, 255)",
   },
   {
-    name: "Item Orders",
-    value: "1.72m",
+    name: "AssignmentReport",
+    value: "12",
     color: "rgb(255, 247, 205)",
   },
   {
-    name: "Bug Reports",
-    value: "235",
+    name: "TicketReports",
+    value: "12",
     color: "rgb(255, 231, 217)",
   },
 ];
