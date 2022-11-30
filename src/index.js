@@ -5,6 +5,8 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import ContextProvider from "./context/ContextProvider";
+import { HelmetProvider } from 'react-helmet-async';
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 if (process.env.NODE_ENV === "development") {
@@ -13,11 +15,13 @@ if (process.env.NODE_ENV === "development") {
 }
 root.render(
   <React.StrictMode>
-    <ContextProvider>    <BrowserRouter>
+    <HelmetProvider>
+    <ContextProvider>  
+        <BrowserRouter>
       <App />
     </BrowserRouter>
     </ContextProvider>
-
+    </HelmetProvider>
   </React.StrictMode>
 );
 

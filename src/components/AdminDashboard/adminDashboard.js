@@ -53,7 +53,7 @@ const AdminDashboard = () => {
         maxWidth='sm'
         style={{ marginTop: "50px", alignItems: "left" }}
       >
-        <Typography variant='h4' gutterBottom>
+        <Typography variant='h3' gutterBottom>
           Hi, Welcome back
         </Typography>
       </Container>
@@ -65,14 +65,14 @@ const AdminDashboard = () => {
               <Card
                 sx={{
                   minWidth: 200,
-                  margin: "10px",
-                  padding: "24px",
+                  margin: "3px",
+                  padding: "10px",
                   backgroundColor: d.color,
                 }}
               >
                 <CardContent sx={{ alignItems: "center" }}>
                   <IconButton>{getIcon(d.name)}</IconButton>
-                  <Typography variant='h3' gutterBottom>
+                  <Typography variant='h4' gutterBottom>
                     {d.value}
                   </Typography>
                   <Typography variant='h6' gutterBottom>

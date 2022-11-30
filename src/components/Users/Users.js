@@ -98,11 +98,11 @@ const Users = () => {
   }, []);
 
   return (
-    <Box sx={{ padding: "10px" }}>
+    <Box sx={{ padding: "30px" }}>
       <Box
         sx={{
-          marginTop: 4,
-          mb: 5,
+          marginTop: 1,
+          mb: 4,
           display: "flex",
           justifyContent: "space-between",
         }}

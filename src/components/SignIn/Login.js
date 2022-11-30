@@ -66,12 +66,12 @@ const Login = () => {
   return (
     <>
       <Box>
-        <Typography sx={{ margin: "10px", fontWeight: "bold" }}>
+        <Typography variant="h3" sx={{ margin: "10px", fontWeight: "bold" }}>
           Sign In
         </Typography>
       </Box>
       <form onSubmit={handleSubmit}>
-        <FormControl sx={{ margin: "10px", width: "200px" }}>
+        {/* <FormControl sx={{ margin: "10px", width: "350px" }}>
           <InputLabel id='demo-simple-select-label'>
             Select your login type
           </InputLabel>
@@ -88,7 +88,7 @@ const Login = () => {
             <MenuItem value={"faculty"}>Faculty</MenuItem>
             <MenuItem value={"learners"}>Learners</MenuItem>
           </Select>
-        </FormControl>
+        </FormControl> */}
         <br />
         <TextField
           required
@@ -99,7 +99,7 @@ const Login = () => {
           placeholder='example@domain.com'
           type='text'
           variant='outlined'
-          sx={{ margin: "10px", width: "200px" }}
+          sx={{ margin: "10px", width: "350px" }}
         />
         <br />
         <TextField
@@ -111,10 +111,10 @@ const Login = () => {
           placeholder='Enter password'
           type='password'
           variant='outlined'
-          sx={{ margin: "10px", width: "200px" }}
+          sx={{ margin: "10px", width: "350px" }}
         />
         <br />
-        <Button variant='contained' type='submit' color='error'>
+        <Button variant='contained' type='submit' color='error' style={{width:"150px",padding:"5px",margin:"10px"}}>
           Login
         </Button>
       </form>
