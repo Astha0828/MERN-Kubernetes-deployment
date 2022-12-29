@@ -1,61 +1,53 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { LoginUser } from "../../api/Api";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
+import CssBaseline from "@mui/material/CssBaseline";
 import { useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
-import HeroVired from "../../images/herovired.png"
-import DataContext from "../../context/DataContext";
+import { useCookies } from "react-cookie";
 
+import UserContext from "../../context/UserContext";
 
+const theme = createTheme();
 const Login = () => {
-  const theme = createTheme();
-  const ctx = useContext(DataContext);
-  const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies();
+  const ctx = useContext(UserContext);
+  // const [email, setemail] = useState("");
+  // const [password, setpassword] = useState("");
+  let userIsLoggedIn = false;
   const [manageLogin, setManageLogin] = useState({
     email: "",
     password: "",
     type: "",
-    url: "",
     errorMsg: "",
-    isError: false
-  })
+    isError: false,
+  });
 
-
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [type, setType] = React.useState("");
-  // const [url, setUrl] = useState("");
-  // const [errorMsg, setErrorMsg] = useState();
-  // const [isError, setIsError] = useState(false);
-
+  const navigate = useNavigate();
   const handleChange = (event) => {
-    // setType(event.target.value);
-    // setUrl(`http://localhost:3000/${event.target.value}/login`);
-
+    console.log(event.target.value);
     setManageLogin((prev) => ({
       ...prev,
       type: event.target.value,
-      url: `http://localhost:3000/${event.target.value}/login`,
-      
-    }))
+    }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
-      event.preventDefault();
       const data = {
         email: manageLogin.email,
         password: manageLogin.password,
@@ -65,40 +57,36 @@ const Login = () => {
         alert("Please enter all required fields");
         return;
       }
-      const res = await axios.post(manageLogin.url, data);
-      console.log(res.data);
+      const res = await LoginUser(data, manageLogin.type);
       if (res.status === 200 && res.data) {
+        userIsLoggedIn = true;
         ctx.loginHandler({
           isLoggedIn: true,
           userDetails: res.data.result,
           type: res.data.result.userType,
           token: res.data.token,
         });
-        if (res.data.result.userType === "admin") {
-          navigate("/dashboard");
-        } else if (res.data.result.userType === "student") {
-          navigate("/student");
-        } else if (res.data.result.userType === "faculty") {
-          navigate("/facultydashboard");
-        }
+        console.log("res.data.result" , res.data.result._id)
+        let expires = new Date();
+        expires.setTime(expires.getTime() + res.data.expires_in * 1000);
+        setCookie("access_token", res.data.token, { path: "/", expires });
+        setCookie("refresh_token", res.data.token, { path: "/", expires });
+        setCookie("userType" , res.data.result.userType)
+        setCookie("userId" , res.data.result._id)
+        setCookie("userLogged" , userIsLoggedIn)
+        navigate(`/dashboard`);
       }
     } catch (err) {
-
       setManageLogin((prev) => ({
         ...prev,
         isError: true,
-        errorMsg:err.data
-      }))
-      
+        errorMsg: err.response.data,
+      }));
     }
-    
-  
 
- 
+    // localStorage.setItem("user" , type);
   };
-
-return (
-  <>
+  return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
@@ -106,27 +94,20 @@ return (
           item
           xs={false}
           sm={4}
-          md={5}
+          md={7}
           sx={{
-            backgroundImage: `url(${HeroVired})`,
-            backgroundRepeat: "no-repeat",
+            backgroundImage:
+              "url(https://herovired.com/wp-content/uploads/2021/03/Vired-About-Us-Banner.png)",
+            backgroundRepeat: "repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
                 ? t.palette.grey[50]
                 : t.palette.grey[900],
-            backgroundSize: "cover",
+            backgroundSize: "contain",
             backgroundPosition: "center",
           }}
-        ></Grid>
-        <Grid
-          item
-          xs={12}
-          sm={8}
-          md={7}
-          component={Paper}
-          elevation={6}
-          square
-        >
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
@@ -140,16 +121,19 @@ return (
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Log In
             </Typography>
-            {manageLogin.isError && <Alert severity="error">{manageLogin.errorMsg}</Alert>}
+            {manageLogin.isError && (
+              <Alert severity="error">{manageLogin.errorMsg}</Alert>
+            )}
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
+              onSubmit={handleLogin}
               sx={{ mt: 1 }}
             >
               <TextField
+                type="email"
                 margin="normal"
                 required
                 fullWidth
@@ -157,11 +141,13 @@ return (
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                onChange={(e) => setManageLogin((prev) => ({
-                  ...prev,
-                  email: e.target.value
-                }))}
                 autoFocus
+                onChange={(e) =>
+                  setManageLogin((prev) => ({
+                    ...prev,
+                    email: e.target.value,
+                  }))
+                }
               />
               <TextField
                 margin="normal"
@@ -171,27 +157,27 @@ return (
                 label="Password"
                 type="password"
                 id="password"
-                onChange={(e) => setManageLogin((prev) => ({
-                  ...prev,
-                  password:e.target.value
-                }))}
                 autoComplete="current-password"
+                onChange={(e) =>
+                  setManageLogin((prev) => ({
+                    ...prev,
+                    password: e.target.value,
+                  }))
+                }
               />
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">
-                  User Type
-                </InputLabel>
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="demo-simple-select-label">User Type</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={manageLogin.type}
-                  label="User type"
+                  label="User Type"
                   onChange={handleChange}
                 >
-                  <MenuItem value={"student"}>Student</MenuItem>
-                  <MenuItem value={"faculty"}>Faculty</MenuItem>
-                  <MenuItem value={"careerService"}>Career Services</MenuItem>
-                  <MenuItem value={"admin"}>Admin</MenuItem>
+                  <MenuItem value="student">Student</MenuItem>
+                  <MenuItem value="faculty">Faculty</MenuItem>
+                  <MenuItem value="careerservice">Career Service</MenuItem>
+                  <MenuItem value="admin">Admin</MenuItem>
                 </Select>
               </FormControl>
 
@@ -201,14 +187,26 @@ return (
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Login
               </Button>
+              <Grid container>
+                <Grid item xs>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="#" variant="body2">
+                    {"Already have an account? Sign In"}
+                  </Link>
+                </Grid>
+              </Grid>
             </Box>
           </Box>
         </Grid>
       </Grid>
     </ThemeProvider>
-  </>
-);
+  );
 };
+
 export default Login;

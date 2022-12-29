@@ -1,29 +1,25 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
-import ContextProvider from "./context/ContextProvider";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.scss';
+import App from './App';
+import UserState from "./context/UserState";
+import { CookiesProvider } from "react-cookie";
 
+import { BrowserRouter } from 'react-router-dom';
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-if (process.env.NODE_ENV === "development") {
-  const { worker } = require("./mocks/browser");
-  worker.start();
-}
 root.render(
-  <ContextProvider>
-   
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-   
-  </ContextProvider>
-
+  <CookiesProvider>
+  <UserState>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </UserState>
+  </CookiesProvider>
+ 
 );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
