@@ -22,7 +22,7 @@ function App() {
   const ctx = useContext(UserContext)
   const manage = ctx.manage;
   console.log(manage.isLoggedIn)
-  const [data , setData] = useState("dashboard");
+  const [data , setData] = useState("");
   const getData = (data) => {
     console.log(data)
     setData(data)
@@ -41,7 +41,7 @@ function App() {
           <Routes>
           {!cookies.userLogged && <Route path="/" element={<Login />} /> }
 
-          {!cookies.userLogged ? <Route path="*" element={<NotFound />} /> :  <Route path="*" element={<NotFound />} />} 
+          {!cookies.userLogged ? <Route path="*" element={<NotFound />} /> :  <Route path="*" element={<Dashboard />} />} 
 
             {(data === "dashboard" || cookies.userLogged) && <Route path="/dashboard" element={<Dashboard />} />}  
             {(data === "students" || cookies.userLogged)  &&  <Route path="/students" element={<Students />} /> }
