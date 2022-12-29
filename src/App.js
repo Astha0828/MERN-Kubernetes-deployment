@@ -39,15 +39,15 @@ function App() {
       {(manage.isLoggedIn || cookies.userLogged) &&  <Sidebar getData={getData} />}
       
           <Routes>
-            <Route path="/" element={<Login />} />
+          {!cookies.userLogged && <Route path="/" element={<Login />} /> }
 
-            {(!cookies.userLogged || cookies.userLogged==="")  &&   <Route path="*" element={<NotFound />} /> }
+          {!cookies.userLogged ? <Route path="*" element={<NotFound />} /> :  <Route path="*" element={<NotFound />} />} 
 
-            {data === "dashboard" && cookies.userLogged && <Route path="/dashboard" element={<Dashboard />} />}  
-            {data === "students" && cookies.userLogged  &&  <Route path="/students" element={<Students />} /> }
-            {data === "faculty" && cookies.userLogged  &&   <Route path="/faculty" element={<Faculty />} /> }
-            {data === "careerServices" && cookies.userLogged  &&   <Route path="/careerServices" element={<CareerService />} /> }
-            {data === "attendance" && cookies.userLogged  &&   <Route path="/attendance" element={<Attendance />} /> }
+            {(data === "dashboard" || cookies.userLogged) && <Route path="/dashboard" element={<Dashboard />} />}  
+            {(data === "students" || cookies.userLogged)  &&  <Route path="/students" element={<Students />} /> }
+            {(data === "faculty" || cookies.userLogged)  &&   <Route path="/faculty" element={<Faculty />} /> }
+            {(data === "careerServices" || cookies.userLogged)  &&   <Route path="/careerServices" element={<CareerService />} /> }
+            {(data === "attendance" || cookies.userLogged ) &&   <Route path="/attendance" element={<Attendance />} /> }
             {cookies.userLogged  &&  <Route path="/student/:id"  element={<StudentDetail />}  />}
             {cookies.userLogged  &&  <Route path="/profile" element={<Profile />} />}
           </Routes>
