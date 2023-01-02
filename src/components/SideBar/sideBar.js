@@ -29,14 +29,14 @@ import { useNavigate } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Logo from "../../assets/images/logo.png"
-import Tooltip from '@mui/material/Tooltip';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Logo from "../../assets/images/logo.png";
+import Tooltip from "@mui/material/Tooltip";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { useCookies } from "react-cookie";
 
 const drawerWidth = 240;
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -111,19 +111,16 @@ const Sidebar = ({ getData }) => {
   const [modelType, setModelType] = useState("");
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [cookies, setCookie , removeToken] = useCookies();
-  console.log(cookies.userType)
+  const [cookies, setCookie, removeToken] = useCookies();
+  console.log(cookies.userType);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
- 
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  
 
   const navigate = useNavigate();
   const handleDrawerOpen = () => {
@@ -148,14 +145,16 @@ const Sidebar = ({ getData }) => {
     setModelType("createBatch");
   };
 
-
   const menuHandeler = (type) => {
     getData(type);
-    navigate(`/${type}`);
+    if (cookies.userType === "student") {
+      navigate("studentDashboard");
+    } else {
+      navigate(`/${type}`);
+    }
     // data = type;
   };
   const logOut = () => {
-    
     removeToken("access_token");
     removeToken("refresh_token");
     removeToken("userId");
@@ -165,12 +164,16 @@ const Sidebar = ({ getData }) => {
     ctx.loginHandler({
       isLoggedIn: false,
     });
-    navigate("/")
-  } 
+    navigate("/");
+  };
   return (
     <>
       {/* Header Starts */}
-      <AppBar position="fixed" open={open} style={{backgroundColor: "#d81816"}}>
+      <AppBar
+        position="fixed"
+        open={open}
+        style={{ backgroundColor: "#d81816" }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -186,42 +189,41 @@ const Sidebar = ({ getData }) => {
           </IconButton>
           <img src={Logo} className="logo" alt="" />
           {/* <Logo sx={{ display: { xs: "flex" }, mr: 1 }} /> */}
-          
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button sx={{ my: 2, color: "white", display: "block" }}>
-              
-            </Button>
+            <Button sx={{ my: 2, color: "white", display: "block" }}></Button>
           </Box>
           <Box>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu}>
-                <Avatar alt="Remy Sharp" src="https://placeimg.com/640/480/any" />
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://placeimg.com/640/480/any"
+                />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              
-                <MenuItem onClick={() => navigate("/profile")}>
-                  <Typography textAlign="center">Profile</Typography>
-                </MenuItem>
-                <MenuItem onClick={logOut}>
-                  <Typography textAlign="center">Logout</Typography>
-                </MenuItem>
-             
+              <MenuItem onClick={() => navigate("/profile")}>
+                <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+              <MenuItem onClick={logOut}>
+                <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
@@ -254,17 +256,15 @@ const Sidebar = ({ getData }) => {
                 <DashboardIcon />
               </ListItemIcon>
               <ListItemText sx={{ opacity: open ? 1 : 0 }}>
-                
                 Dashboard
               </ListItemText>
             </ListItemButton>
             <Divider />
-            <ListItemButton onClick={() => menuHandeler("students")} >
+            <ListItemButton onClick={() => menuHandeler("students")}>
               <ListItemIcon>
                 <FaceIcon />
               </ListItemIcon>
               <ListItemText sx={{ opacity: open ? 1 : 0 }}>
-                
                 Students
               </ListItemText>
             </ListItemButton>
@@ -276,7 +276,6 @@ const Sidebar = ({ getData }) => {
                     <Person3Icon />
                   </ListItemIcon>
                   <ListItemText sx={{ opacity: open ? 1 : 0 }}>
-                    
                     Faculty
                   </ListItemText>
                 </ListItemButton>
@@ -290,7 +289,6 @@ const Sidebar = ({ getData }) => {
                     <WorkIcon />
                   </ListItemIcon>
                   <ListItemText sx={{ opacity: open ? 1 : 0 }}>
-                    
                     Career Services
                   </ListItemText>
                 </ListItemButton>
@@ -304,7 +302,6 @@ const Sidebar = ({ getData }) => {
                     <PersonAddIcon />
                   </ListItemIcon>
                   <ListItemText sx={{ opacity: open ? 1 : 0 }}>
-                    
                     Register New Users
                   </ListItemText>
                 </ListItemButton>
@@ -320,7 +317,6 @@ const Sidebar = ({ getData }) => {
                     <DynamicFormIcon />
                   </ListItemIcon>
                   <ListItemText sx={{ opacity: open ? 1 : 0 }}>
-                    
                     Upload Question
                   </ListItemText>
                 </ListItemButton>
@@ -334,7 +330,6 @@ const Sidebar = ({ getData }) => {
                     <LibraryBooksIcon />
                   </ListItemIcon>
                   <ListItemText sx={{ opacity: open ? 1 : 0 }}>
-                    
                     Upload Attendance
                   </ListItemText>
                 </ListItemButton>
@@ -348,7 +343,6 @@ const Sidebar = ({ getData }) => {
                     <AddCircleIcon />
                   </ListItemIcon>
                   <ListItemText sx={{ opacity: open ? 1 : 0 }}>
-                    
                     Create New Batch
                   </ListItemText>
                 </ListItemButton>

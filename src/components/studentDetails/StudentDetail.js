@@ -49,7 +49,7 @@ const StudentDetail = () => {
   };
   const submitAttendance = () => {
     const attData = {
-      student: getStudent._id,
+      studentId: getStudent._id,
       StudentName: getStudent.fullname,
       BatchName: getStudent.batchName,
       attendanceDate: value,

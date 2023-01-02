@@ -15,6 +15,8 @@ import Attendance from "./components/attendance/Attendance";
 import StudentDetail from "./components/studentDetails/StudentDetail";
 import Profile from "./components/profile/Profile";
 import { useCookies } from "react-cookie";
+import MainWrapper from "./components/mainWrapper/MainWrapper";
+import StudentDashboard from "./components/dashboard/studentDashboard/StudentDashboard";
 
 
 function App() {
@@ -42,7 +44,7 @@ function App() {
           {!cookies.userLogged && <Route path="/" element={<Login />} /> }
 
           {!cookies.userLogged ? <Route path="*" element={<NotFound />} /> :  <Route path="*" element={<Dashboard />} />} 
-
+           {cookies.userType === "student" ? <Route path="/studentDashboard" element={<StudentDashboard />} /> :  <Route path="/dashboard" element={<Dashboard />} />} 
             {(data === "dashboard" || cookies.userLogged) && <Route path="/dashboard" element={<Dashboard />} />}  
             {(data === "students" || cookies.userLogged)  &&  <Route path="/students" element={<Students />} /> }
             {(data === "faculty" || cookies.userLogged)  &&   <Route path="/faculty" element={<Faculty />} /> }

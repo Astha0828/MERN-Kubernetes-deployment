@@ -50,4 +50,8 @@ export const markAttendance = (params) => {
     .post(`${baseUrl}/attendance/register`, params);
 };
 
+export const getStudentAttendance =  (id) => {
+  return axios
+    .get(`${baseUrl}/attendance/${id}`,)
+};
 

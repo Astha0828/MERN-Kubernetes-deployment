@@ -74,7 +74,12 @@ const Login = () => {
         setCookie("userType" , res.data.result.userType)
         setCookie("userId" , res.data.result._id)
         setCookie("userLogged" , userIsLoggedIn)
+        console.log(cookies.userType)
+        if(res.data.result.userType === 'student') {
+          navigate(`/studentDashboard`);
+        } else {
         navigate(`/dashboard`);
+      }
       }
     } catch (err) {
       setManageLogin((prev) => ({
