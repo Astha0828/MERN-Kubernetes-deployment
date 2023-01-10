@@ -11,6 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -20,6 +21,7 @@ import FaceIcon from "@mui/icons-material/Face";
 import Person3Icon from "@mui/icons-material/Person3";
 import WorkIcon from "@mui/icons-material/Work";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import DatasetIcon from "@mui/icons-material/Dataset";
 import UserContext from "../../context/UserContext";
 import "./sidebar.scss";
 import RegisterNewUser from "../../modals/RegisterNewUser";
@@ -144,6 +146,15 @@ const Sidebar = ({ getData }) => {
     setRegister(true);
     setModelType("createBatch");
   };
+  const uploadCapstoneData = () => {
+    setRegister(true);
+    setModelType("uploadCapstoneData");
+  };
+
+  const capstoneAttendance = () => {
+    setRegister(true);
+    setModelType("capstoneAttendance");
+  };
 
   const menuHandeler = (type) => {
     getData(type);
@@ -170,16 +181,16 @@ const Sidebar = ({ getData }) => {
     <>
       {/* Header Starts */}
       <AppBar
-        position="fixed"
+        position='fixed'
         open={open}
         style={{ backgroundColor: "#d81816" }}
       >
         <Toolbar>
           <IconButton
-            color="inherit"
-            aria-label="open drawer"
+            color='inherit'
+            aria-label='open drawer'
             onClick={handleDrawerOpen}
-            edge="start"
+            edge='start'
             sx={{
               marginRight: 5,
               ...(open && { display: "none" }),
@@ -187,24 +198,24 @@ const Sidebar = ({ getData }) => {
           >
             <MenuIcon />
           </IconButton>
-          <img src={Logo} className="logo" alt="" />
+          <img src={Logo} className='logo' alt='' />
           {/* <Logo sx={{ display: { xs: "flex" }, mr: 1 }} /> */}
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Button sx={{ my: 2, color: "white", display: "block" }}></Button>
           </Box>
           <Box>
-            <Tooltip title="Open settings">
+            <Tooltip title='Open settings'>
               <IconButton onClick={handleOpenUserMenu}>
                 <Avatar
-                  alt="Remy Sharp"
-                  src="https://placeimg.com/640/480/any"
+                  alt='Remy Sharp'
+                  src='https://placeimg.com/640/480/any'
                 />
               </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
-              id="menu-appbar"
+              id='menu-appbar'
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: "top",
@@ -219,10 +230,10 @@ const Sidebar = ({ getData }) => {
               onClose={handleCloseUserMenu}
             >
               <MenuItem onClick={() => navigate("/profile")}>
-                <Typography textAlign="center">Profile</Typography>
+                <Typography textAlign='center'>Profile</Typography>
               </MenuItem>
               <MenuItem onClick={logOut}>
-                <Typography textAlign="center">Logout</Typography>
+                <Typography textAlign='center'>Logout</Typography>
               </MenuItem>
             </Menu>
           </Box>
@@ -231,12 +242,12 @@ const Sidebar = ({ getData }) => {
       {/* Header End */}
       {/* ============================================================== */}
       {/* Sidebar Starts */}
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant='permanent' open={open}>
         <DrawerHeader>
-          <div className="sidebar-avatar">
+          <div className='sidebar-avatar'>
             <Avatar
-              alt="Remy Sharp"
-              src="https://placeimg.com/640/480/people"
+              alt='Remy Sharp'
+              src='https://placeimg.com/640/480/people'
             />
             <strong> {ctx.manage.userdetails.username}</strong>
           </div>
@@ -346,6 +357,34 @@ const Sidebar = ({ getData }) => {
                     Create New Batch
                   </ListItemText>
                 </ListItemButton>
+                <Divider />
+              </>
+            )}
+            {cookies.userType === "faculty" && (
+              <>
+                <ListItemButton onClick={uploadCapstoneData}>
+                  <ListItemIcon>
+                    <DatasetIcon />
+                  </ListItemIcon>
+                  <ListItemText sx={{ opacity: open ? 1 : 0 }}>
+                    Upload Capstone Data
+                  </ListItemText>
+                </ListItemButton>
+
+                <Divider />
+              </>
+            )}
+            {cookies.userType === "faculty" && (
+              <>
+                <ListItemButton onClick={capstoneAttendance}>
+                  <ListItemIcon>
+                    <EventAvailableIcon />
+                  </ListItemIcon>
+                  <ListItemText sx={{ opacity: open ? 1 : 0 }}>
+                    Capstone Attendance
+                  </ListItemText>
+                </ListItemButton>
+
                 <Divider />
               </>
             )}
