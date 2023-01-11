@@ -7,6 +7,7 @@ import Signup from "../components/signup/Signup";
 import Questions from "../components/questions/Questions";
 import CreateBatch from "../components/createBatch/CreateBatch";
 import UploadCapstoneData from "../components/uploadCapstoneData/UploadCapstoneData";
+import CapstoneAttendance from "../components/capstoneAttendance/CapstoneAttendance";
 import CancelIcon from "@mui/icons-material/Cancel";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
@@ -39,6 +40,7 @@ const RegisterNewUser = ({ register, CancelRegister, modelType }) => {
           {modelType === "question" && "Upload Question"}
           {modelType === "createBatch" && "Create New Batch"}
           {modelType === "uploadCapstoneData" && "Upload Capstone Data"}
+          {modelType === "capstoneAttendance" && "Capstone Attendance"}
 
           <CancelIcon style={{ cursor: "pointer" }} onClick={handleClose} />
         </DialogTitle>
@@ -47,6 +49,7 @@ const RegisterNewUser = ({ register, CancelRegister, modelType }) => {
           {modelType === "question" && <Questions />}
           {modelType === "createBatch" && <CreateBatch />}
           {modelType === "uploadCapstoneData" && <UploadCapstoneData />}
+          {modelType === "capstoneAttendance" && <CapstoneAttendance />}
         </DialogContent>
       </Dialog>
     </div>
