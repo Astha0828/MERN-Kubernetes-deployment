@@ -1,24 +1,24 @@
-import * as React from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-import Signup from '../components/signup/Signup';
-import Questions from '../components/questions/Questions';
-import CreateBatch from '../components/createBatch/CreateBatch';
-import CancelIcon from '@mui/icons-material/Cancel';
+import * as React from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
+import Signup from "../components/signup/Signup";
+import Questions from "../components/questions/Questions";
+import CreateBatch from "../components/createBatch/CreateBatch";
+import UploadCapstoneData from "../components/uploadCapstoneData/UploadCapstoneData";
+import CapstoneAttendance from "../components/capstoneAttendance/CapstoneAttendance";
+import CancelIcon from "@mui/icons-material/Cancel";
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
+const RegisterNewUser = ({ register, CancelRegister, modelType }) => {
+  const [open, setOpen] = React.useState(false);
 
-const RegisterNewUser = ({register , CancelRegister , modelType}) => {
-
-    const [open, setOpen] = React.useState(false);
-
-    const handleClose = () => {
-      setOpen(CancelRegister);
-    };
+  const handleClose = () => {
+    setOpen(CancelRegister);
+  };
   return (
     <div>
       <Dialog
@@ -26,29 +26,34 @@ const RegisterNewUser = ({register , CancelRegister , modelType}) => {
         TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
+        aria-describedby='alert-dialog-slide-description'
       >
-        <DialogTitle  style={{minWidth: 500 , display: 'flex', justifyContent: 'space-between', alignItems: "center"}}>
+        <DialogTitle
+          style={{
+            minWidth: 500,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {modelType === "register" && "Register User"}
+          {modelType === "question" && "Upload Question"}
+          {modelType === "createBatch" && "Create New Batch"}
+          {modelType === "uploadCapstoneData" && "Upload Capstone Data"}
+          {modelType === "capstoneAttendance" && "Capstone Attendance"}
 
-          {modelType === 'register' &&   "Register User"}
-           {modelType === 'question' &&  "Upload Question"}
-           {modelType === 'createBatch' && "Create New Batch"}
-           
-           <CancelIcon style={{cursor: "pointer"}} onClick={handleClose}/>
+          <CancelIcon style={{ cursor: "pointer" }} onClick={handleClose} />
         </DialogTitle>
         <DialogContent>
-          
-         
-           {modelType === 'register' &&  <Signup />}
-           {modelType === 'question' &&  <Questions />}
-           {modelType === 'createBatch' && <CreateBatch />}
-        
+          {modelType === "register" && <Signup />}
+          {modelType === "question" && <Questions />}
+          {modelType === "createBatch" && <CreateBatch />}
+          {modelType === "uploadCapstoneData" && <UploadCapstoneData />}
+          {modelType === "capstoneAttendance" && <CapstoneAttendance />}
         </DialogContent>
-        
       </Dialog>
-
     </div>
-  )
-}
+  );
+};
 
-export default RegisterNewUser
+export default RegisterNewUser;

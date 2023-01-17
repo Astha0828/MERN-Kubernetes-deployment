@@ -1,15 +1,15 @@
 import "./App.scss";
 import Login from "./components/Login/Login";
 import { Route, Routes } from "react-router-dom";
-import { useState , useContext ,useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import Students from "./components/students/Students";
 import Sidebar from "./components/SideBar/sideBar";
-import  Dashboard  from "./components/dashboard/Dashboard";
+import Dashboard from "./components/dashboard/Dashboard";
 import Box from "@mui/material/Box";
-import CssBaseline from '@mui/material/CssBaseline';
+import CssBaseline from "@mui/material/CssBaseline";
 import Faculty from "./components/faculty/Faculty";
 import CareerService from "./components/careerService/CareerService";
-import UserContext from "./context/UserContext"
+import UserContext from "./context/UserContext";
 import NotFound from "./components/notFound/NotFound";
 import Attendance from "./components/attendance/Attendance";
 import StudentDetail from "./components/studentDetails/StudentDetail";
@@ -18,44 +18,63 @@ import { useCookies } from "react-cookie";
 import MainWrapper from "./components/mainWrapper/MainWrapper";
 import StudentDashboard from "./components/dashboard/studentDashboard/StudentDashboard";
 
-
 function App() {
   const [cookies, setCookie] = useCookies();
-  const ctx = useContext(UserContext)
+  const ctx = useContext(UserContext);
   const manage = ctx.manage;
-  console.log(manage.isLoggedIn)
-  const [data , setData] = useState("");
+  console.log(manage.isLoggedIn);
+  const [data, setData] = useState("");
   const getData = (data) => {
-    console.log(data)
-    setData(data)
-  }
-  useEffect(() => {
-    
-  }, [data])
+    console.log(data);
+    setData(data);
+  };
+  useEffect(() => {}, [data]);
 
   return (
-    
-      <div className="App">
-      <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-      {(manage.isLoggedIn || cookies.userLogged) &&  <Sidebar getData={getData} />}
-      
-          <Routes>
-          {!cookies.userLogged && <Route path="/" element={<Login />} /> }
+    <div className='App'>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        {(manage.isLoggedIn || cookies.userLogged) && (
+          <Sidebar getData={getData} />
+        )}
 
-          {!cookies.userLogged ? <Route path="*" element={<NotFound />} /> :  <Route path="*" element={<Dashboard />} />} 
-           {cookies.userType === "student" ? <Route path="/studentDashboard" element={<StudentDashboard />} /> :  <Route path="/dashboard" element={<Dashboard />} />} 
-            {(data === "dashboard" || cookies.userLogged) && <Route path="/dashboard" element={<Dashboard />} />}  
-            {(data === "students" || cookies.userLogged)  &&  <Route path="/students" element={<Students />} /> }
-            {(data === "faculty" || cookies.userLogged)  &&   <Route path="/faculty" element={<Faculty />} /> }
-            {(data === "careerServices" || cookies.userLogged)  &&   <Route path="/careerServices" element={<CareerService />} /> }
-            {(data === "attendance" || cookies.userLogged ) &&   <Route path="/attendance" element={<Attendance />} /> }
-            {cookies.userLogged  &&  <Route path="/student/:id"  element={<StudentDetail />}  />}
-            {cookies.userLogged  &&  <Route path="/profile" element={<Profile />} />}
-          </Routes>
-        </Box>
-      </div>
-  
+        <Routes>
+          {!cookies.userLogged && <Route path='/' element={<Login />} />}
+
+          {!cookies.userLogged ? (
+            <Route path='*' element={<NotFound />} />
+          ) : (
+            <Route path='*' element={<Dashboard />} />
+          )}
+          {cookies.userType === "student" ? (
+            <Route path='/studentDashboard' element={<StudentDashboard />} />
+          ) : (
+            <Route path='/dashboard' element={<Dashboard />} />
+          )}
+          {(data === "dashboard" || cookies.userLogged) && (
+            <Route path='/dashboard' element={<Dashboard />} />
+          )}
+          {(data === "students" || cookies.userLogged) && (
+            <Route path='/students' element={<Students />} />
+          )}
+          {(data === "faculty" || cookies.userLogged) && (
+            <Route path='/faculty' element={<Faculty />} />
+          )}
+          {(data === "careerServices" || cookies.userLogged) && (
+            <Route path='/careerServices' element={<CareerService />} />
+          )}
+          {(data === "attendance" || cookies.userLogged) && (
+            <Route path='/attendance' element={<Attendance />} />
+          )}
+          {cookies.userLogged && (
+            <Route path='/student/:id' element={<StudentDetail />} />
+          )}
+          {cookies.userLogged && (
+            <Route path='/profile' element={<Profile />} />
+          )}
+        </Routes>
+      </Box>
+    </div>
   );
 }
 
