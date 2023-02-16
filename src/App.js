@@ -28,7 +28,7 @@ function App() {
     console.log(data);
     setData(data);
   };
-  useEffect(() => {}, [data]);
+  useEffect(() => { }, [data]);
 
   return (
     <div className='App'>
@@ -72,6 +72,8 @@ function App() {
           {cookies.userLogged && (
             <Route path='/profile' element={<Profile />} />
           )}
+          <Route path='/companydatabase' element={<CompanyDatabase />} />
+          <Route path='/learnerplacementopportunity' element={<LearnerPlacementOpportunity />} />
         </Routes>
       </Box>
     </div>
