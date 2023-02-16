@@ -9,7 +9,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { Button, Typography } from "@mui/material";
 import { faker } from "@faker-js/faker";
 import axios from "axios";
-import DataContext from "../../context/DataContext";
+// import DataContext from "../../context/DataContext";
 import { GridToolbar } from '@mui/x-data-grid';
 // import { useDemoData } from '@mui/x-data-grid-generator';
 const columns = [
@@ -79,7 +79,7 @@ const columns = [
 ];
 
 const LearnerPlacementOpportunity = (props) => {
-    const ctx = useContext(DataContext);
+    // const ctx = useContext(DataContext);
 
     useEffect(() => {
 
@@ -91,7 +91,7 @@ const LearnerPlacementOpportunity = (props) => {
             { _id: 4, studentName: "Rohan Jadhav",  studentEmail:"rohan@gmail.com",studentBatch:"b-1",studentQualifiedSkill:["React", "JavaScript","Node"], companyNameApplied: "MicroSoft", overallStatus: "Not Started", applicationStatus:"Ongoing",round:1 },
             { _id: 5, studentName: "Vishu Jadhav", studentEmail:"vishu@gmail.com",studentBatch:"c-1",studentQualifiedSkill:["React", "JavaScript","Node"],  companyNameApplied: "Hero Vired", overallStatus: "Closed", applicationStatus:"Rejected",round:0 }]
             // console.log(res.data);
-            ctx.setListOfUsers(data);
+            // ctx.setListOfUsers(data);
         }
         fetchUsers()
 
@@ -140,7 +140,7 @@ const LearnerPlacementOpportunity = (props) => {
                 <DataGrid
 
                     columns={columns}
-                    rows={ctx.listOfUsers}
+                    // rows={ctx.listOfUsers}
 
                     getRowId={(row) => row._id}
                     components={{

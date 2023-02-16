@@ -17,15 +17,8 @@ import { useCookies } from 'react-cookie';
 import TextField from '@mui/material/TextField';
 import './Profile.scss';
 import { Button } from '@mui/material';
-import EditProfile from './EditProfile';
-const Profile = () => {
-	const [getStudent, setGetStudent] = useState([]);
-  const [tempStudent, setTempStudent] = useState()
-	const [cookies, setCookie] = useCookies();
-	const [editField, setEditField] = useState(false);
-	const ctx = useContext(UserContext);
-	const userId = ctx.studentId;
-	console.log(cookies.studentId);
+const EditProfile = ({ tempStudent, getStudent, setTempStudent }) => {
+	console.log('tempStudent', tempStudent);
 	const DrawerHeader = styled('div')(({ theme }) => ({
 		display: 'flex',
 		alignItems: 'center',
@@ -41,47 +34,27 @@ const Profile = () => {
 		textAlign: 'center',
 		color: theme.palette.text.secondary,
 	}));
-	useEffect(() => {
-		getSingleStudent(`${cookies.studentId}`)
-			.then((res) => res.data)
-			.then((getStudent) => {
-        setGetStudent(getStudent)
-        setTempStudent(getStudent)})
-			.catch((err) => {
-				console.log(err);
-			});
-	}, [userId]);
-	const editProfile = () => {
-		setEditField(true);
+
+	const [fullname, setFullname] = useState();
+	const [profileEmail, setEmail] = useState('');
+	const [profilePhoneNo, setPhoneNo] = useState('');
+	const [profileCourseName, setCourseName] = useState('');
+	const [profilecurrentCTC, setcurrentCTC] = useState('');
+	const [profileQualification, setQualification] = useState('');
+	const [profileBatchName, setBatchName] = useState('');
+	const [profileWorkingStatus, setWorkingStatus] = useState('');
+	const [profileYearOfExp, setYearOfExp] = useState('');
+	const saveProfile = (e) => {
+		e.preventDefault();
+		updateStudentProfile(`${getStudent._id}`, {
+			fullname: fullname,
+			email: profileEmail,
+		});
 	};
-
-
-	// const [manageProfile, setManageProfile] = useState({
-	// 	fullname: profileFullName,
-	// 	email: '',
-	// 	phoneNo: '',
-	// 	courseName: '',
-	// 	currentCTC: '',
-	// 	qualification: '',
-	// 	batchName: '',
-	// 	workingStatus: '',
-	// 	yearOfExp: '',
-	// 	isError: false,
-	// });
-
-	// const changeHandler = (e) => {
-	//   setFullname((prev ) => ({
-	//     ...prev,
-	//     email: e.target.value
-	//   }))
-	// }
-
 	return (
-		<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+		<Box component='main' sx={{ flexGrow: 1 }}>
 			<DrawerHeader />
-
-      {!editField &&	
-      <Box sx={{ flexGrow: 1 }}>
+			<Box sx={{ flexGrow: 1 }}>
 				<Grid container spacing={2}>
 					<Grid item xs={5}>
 						<Item className='profile-card'>
@@ -91,11 +64,15 @@ const Profile = () => {
 								</div>
 								<div className='profile-details'>
 									<h3>
-										{getStudent.fullname}
+										<form>
+											<input
+												type='text'
+												value={tempStudent.fullname}
+												onChange={(e) => setFullname(e.target.value)}
+											/>
+										</form>
 									</h3>
-									<h3>
-                  {getStudent.email}
-									</h3>
+									<h3>{getStudent.email}</h3>
 									<h3>{getStudent.phoneNo}</h3>
 									<h3>{getStudent.courseName}</h3>
 								</div>
@@ -157,10 +134,9 @@ const Profile = () => {
 											component='th'
 											scope='row'
 											align='center'>
-											<Button variant='outlined' onClick={editProfile}>
-												Edit
+											<Button variant='outlined' onClick={saveProfile}>
+												Save
 											</Button>
-										
 										</TableCell>
 									</TableRow>
 								</TableBody>
@@ -169,12 +145,8 @@ const Profile = () => {
 					</Grid>
 				</Grid>
 			</Box>
-}
-
-      {editField && <EditProfile tempStudent={tempStudent} getStudent={getStudent} setTempStudent={setTempStudent}/>}
-       
 		</Box>
 	);
 };
 
-export default Profile;
+export default EditProfile;

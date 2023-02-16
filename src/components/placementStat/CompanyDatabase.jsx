@@ -9,7 +9,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { Button, Typography } from "@mui/material";
 import { faker } from "@faker-js/faker";
 import axios from "axios";
-import DataContext from "../../context/DataContext";
+// import DataContext from "../../context/DataContext";
 import { GridToolbar } from '@mui/x-data-grid';
 // import { useDemoData } from '@mui/x-data-grid-generator';
 const columns = [
@@ -176,7 +176,7 @@ const columns = [
 ];
 
 const CompanyDatabase = (props) => {
-    const ctx = useContext(DataContext);
+    // const ctx = useContext(DataContext);
 
     useEffect(() => {
 
@@ -188,7 +188,7 @@ const CompanyDatabase = (props) => {
             { _id: 4, companyName: "MicroSoft",jobTitle:"Software Engineer", driveIsFor:"B2C",Segment:"Non-Tech",hrEmailId:'hr@gmail.com',hrMobileNo:"1234567890",JDfromCompany:"No", HiringLocation:["Mumbai","Pune"],isWFHavailable:true,minExperience:1,maxExperience:4,minRelevantYears:1,maxRelevantYears:3,minCTC:1200000, minInternshipStipend:200000, maxInternshipStipend:200000,internshipDuration:1,noOfVacancy:10,lastDateOfApplication:"10/01/2023",noOfRecruitmentRound:2},
             { _id: 5, companyName: "Hero Vired",jobTitle:"Software Engineer", driveIsFor:"B2I",Segment:"Non-Tech",hrEmailId:'hr@gmail.com',hrMobileNo:"1234567890",JDfromCompany:"Yes", HiringLocation:["Mumbai","Pune"],isWFHavailable:true,minExperience:1,maxExperience:4,minRelevantYears:1,maxRelevantYears:2,minCTC:500000, minInternshipStipend:200000, maxInternshipStipend:200000,internshipDuration:1,noOfVacancy:10,lastDateOfApplication:"10/01/2023",noOfRecruitmentRound:5}]
             // console.log(res.data);
-            ctx.setListOfUsers(data);
+            // ctx.setListOfUsers(data);
         }
         fetchUsers()
 
@@ -237,7 +237,7 @@ const CompanyDatabase = (props) => {
                 <DataGrid
 
                     columns={columns}
-                    rows={ctx.listOfUsers}
+                    rows={10}
 
                     getRowId={(row) => row._id}
                     components={{
