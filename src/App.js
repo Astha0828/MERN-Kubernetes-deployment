@@ -18,6 +18,8 @@ import { useCookies } from "react-cookie";
 import MainWrapper from "./components/mainWrapper/MainWrapper";
 import StudentDashboard from "./components/dashboard/studentDashboard/StudentDashboard";
 import PlacementDashboard from "./components/placement/dashboard/PlacementDashboard";
+import CompanyDatabase from "./components/placementStat/CompanyDatabase"
+import LearnerPlacementOpportunity from "./components/placementStat/LearnerPlacementOpportunity"
 function App() {
   const [cookies, setCookie] = useCookies();
   const ctx = useContext(UserContext);
