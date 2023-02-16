@@ -1,0 +1,26 @@
+@import "../../../theme/color";
+
+.placement-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+    .placement-box{
+        display: flex;
+        flex-direction: column;
+        border: solid 1px $light-grey;
+        border-radius: 50px;
+        padding: 10px 30px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        min-width: 160px;
+
+        h2{
+            margin: 0;
+        }
+        span{
+            color: $dark-grey;
+        }
+    }
+}

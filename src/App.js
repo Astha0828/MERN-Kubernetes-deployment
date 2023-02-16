@@ -1,9 +1,9 @@
 import "./App.scss";
-import Login from "./components/Login/Login";
+import Login from "./components/login/Login";
 import { Route, Routes } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import Students from "./components/students/Students";
-import Sidebar from "./components/SideBar/sideBar";
+import Sidebar from "./components/sidebar/sideBar";
 import Dashboard from "./components/dashboard/Dashboard";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,7 +17,7 @@ import Profile from "./components/profile/Profile";
 import { useCookies } from "react-cookie";
 import MainWrapper from "./components/mainWrapper/MainWrapper";
 import StudentDashboard from "./components/dashboard/studentDashboard/StudentDashboard";
-
+import PlacementDashboard from "./components/placement/dashboard/PlacementDashboard";
 function App() {
   const [cookies, setCookie] = useCookies();
   const ctx = useContext(UserContext);
