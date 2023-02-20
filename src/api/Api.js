@@ -54,3 +54,7 @@ export const getStudentAttendance = (id) => {
 export const updateStudentProfile = (id , data) => {
   return axios.put(`${baseUrl}/student/updateStudentProfile/${id}` , data);
 };
+
+export const getAttendanceCount = (id) => {
+  return axios.get(`${baseUrl}/attendance/attendanceCount/${id}`);
+};

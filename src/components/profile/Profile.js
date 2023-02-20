@@ -1,10 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect , useCallback } from 'react';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import UserContext from '../../context/UserContext';
-import { getSingleStudent, updateStudentProfile } from '../../api/Api';
+import {
+	getSingleStudent,
+	getAttendanceCount,
+	getStudentAttendance,
+} from '../../api/Api';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -18,14 +22,42 @@ import TextField from '@mui/material/TextField';
 import './Profile.scss';
 import { Button } from '@mui/material';
 import EditProfile from './EditProfile';
+import ReactApexChart from 'react-apexcharts';
 const Profile = () => {
 	const [getStudent, setGetStudent] = useState([]);
-  const [tempStudent, setTempStudent] = useState()
+	const [getAttendance, setAttendance] = useState([]);
+	const [tempStudent, setTempStudent] = useState();
 	const [cookies, setCookie] = useCookies();
 	const [editField, setEditField] = useState(false);
+
 	const ctx = useContext(UserContext);
 	const userId = ctx.studentId;
-	console.log(cookies.studentId);
+	const [obj, setObject] = useState({
+		series: [1, 1],
+		options: {
+			colors: ['#299617', '#DC143C'],
+			chart: {
+				width: 380,
+				type: 'pie',
+			},
+			labels: ['Present', 'Absent'], 
+			responsive: [
+				{
+					breakpoint: 480,
+					options: {
+						chart: {
+							width: 200,
+						},
+						legend: {
+							position: 'bottom',
+						},
+					},
+				},
+			],
+		},
+	});
+
+
 	const DrawerHeader = styled('div')(({ theme }) => ({
 		display: 'flex',
 		alignItems: 'center',
@@ -41,138 +73,198 @@ const Profile = () => {
 		textAlign: 'center',
 		color: theme.palette.text.secondary,
 	}));
+
+	const getTotalAttendance = () => 
+	{
+		getAttendanceCount(`${cookies.studentId}`)
+			.then((res) => res.data.data)
+			.then((getAttendance) => setAttendance(getAttendance));
+		getAttendance.map((item) => {
+			setObject({
+				series: [item.present, item.absent],
+				
+				options: {
+					colors: ['#299617', '#DC143C'],
+					chart: {
+						width: 380,
+						type: 'pie',
+					},
+					labels: ['Present', 'Absent'], 
+					responsive: [
+						{
+							breakpoint: 480,
+							options: {
+								chart: {
+									width: 200,
+								},
+								legend: {
+									position: 'bottom',
+								},
+							},
+						},
+					],
+				},
+			});
+		});
+	}
 	useEffect(() => {
 		getSingleStudent(`${cookies.studentId}`)
 			.then((res) => res.data)
 			.then((getStudent) => {
-        setGetStudent(getStudent)
-        setTempStudent(getStudent)})
+				setGetStudent(getStudent);
+				setTempStudent(getStudent);
+			})
 			.catch((err) => {
 				console.log(err);
 			});
+
+		
 	}, [userId]);
+
+	useEffect(() => {
+		getTotalAttendance();
+	}, [userId])
+
 	const editProfile = () => {
 		setEditField(true);
 	};
 
-
-	// const [manageProfile, setManageProfile] = useState({
-	// 	fullname: profileFullName,
-	// 	email: '',
-	// 	phoneNo: '',
-	// 	courseName: '',
-	// 	currentCTC: '',
-	// 	qualification: '',
-	// 	batchName: '',
-	// 	workingStatus: '',
-	// 	yearOfExp: '',
-	// 	isError: false,
-	// });
-
-	// const changeHandler = (e) => {
-	//   setFullname((prev ) => ({
-	//     ...prev,
-	//     email: e.target.value
-	//   }))
-	// }
+	
 
 	return (
 		<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
 			<DrawerHeader />
-
-      {!editField &&	
-      <Box sx={{ flexGrow: 1 }}>
-				<Grid container spacing={2}>
-					<Grid item xs={5}>
-						<Item className='profile-card'>
-							<div className='profile-wrapper'>
-								<div className='user-img'>
-									<img src={getStudent.userImage} alt='' />
+			{!editField && (
+				<Box sx={{ flexGrow: 1 }}>
+					<Grid container spacing={2}>
+						<Grid item xs={5}>
+							<Item className='profile-card'>
+								<div className='profile-wrapper'>
+									<div className='user-img'>
+										<img src={getStudent.userImage} alt='' />
+									</div>
+									<div className='profile-details'>
+										<h3>{getStudent.fullname}</h3>
+										<h3>{getStudent.email}</h3>
+										<h3>{getStudent.phoneNo}</h3>
+										<h3>{getStudent.courseName}</h3>
+									</div>
 								</div>
-								<div className='profile-details'>
-									<h3>
-										{getStudent.fullname}
-									</h3>
-									<h3>
-                  {getStudent.email}
-									</h3>
-									<h3>{getStudent.phoneNo}</h3>
-									<h3>{getStudent.courseName}</h3>
+							</Item>
+						</Grid>
+						<Grid item xs={7}>
+							<TableContainer component={Paper}>
+								<Table aria-label='simple table'>
+									<TableBody>
+										<TableRow
+											sx={{
+												'&:last-child td, &:last-child th': { border: 0 },
+											}}>
+											<TableCell component='th' scope='row'>
+												Qualification
+											</TableCell>
+											<TableCell align='right'>
+												{getStudent.qualification}
+											</TableCell>
+										</TableRow>
+										<TableRow
+											sx={{
+												'&:last-child td, &:last-child th': { border: 0 },
+											}}>
+											<TableCell component='th' scope='row'>
+												Batch Name
+											</TableCell>
+											<TableCell align='right'>
+												{getStudent.batchName}
+											</TableCell>
+										</TableRow>
+										<TableRow
+											sx={{
+												'&:last-child td, &:last-child th': { border: 0 },
+											}}>
+											<TableCell component='th' scope='row'>
+												Working Status
+											</TableCell>
+											<TableCell align='right'>
+												{getStudent.workingStatus}
+											</TableCell>
+										</TableRow>
+										<TableRow
+											sx={{
+												'&:last-child td, &:last-child th': { border: 0 },
+											}}>
+											<TableCell component='th' scope='row'>
+												Total Experience
+											</TableCell>
+											<TableCell align='right'>
+												{' '}
+												{getStudent.yearOfExp}
+											</TableCell>
+										</TableRow>
+
+										<TableRow
+											sx={{
+												'&:last-child td, &:last-child th': { border: 0 },
+											}}>
+											<TableCell component='th' scope='row'>
+												Current CTC
+											</TableCell>
+											<TableCell align='right'>
+												{' '}
+												{getStudent.currentCTC}
+											</TableCell>
+										</TableRow>
+
+										<TableRow
+											sx={{
+												'&:last-child td, &:last-child th': { border: 0 },
+											}}>
+											<TableCell
+												colSpan={2}
+												component='th'
+												scope='row'
+												align='center'>
+												<Button variant='outlined' onClick={editProfile}>
+													Edit
+												</Button>
+											</TableCell>
+										</TableRow>
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Grid>
+					</Grid>
+
+					<Grid container spacing={2} className='grid-wrapper'>
+						<Grid item xs={6}>
+							<Item>
+								<div className='chart-wrapper'>
+									<h3>Attendance</h3>
+							
+									<ReactApexChart
+										options={obj.options}
+										series={obj.series}
+										type='pie'
+										width={380}
+									/>
+							
 								</div>
-							</div>
-						</Item>
+							</Item>
+						</Grid>
+						<Grid item xs={6}>
+							<Item>xs=4</Item>
+						</Grid>
 					</Grid>
-					<Grid item xs={7}>
-						<TableContainer component={Paper}>
-							<Table aria-label='simple table'>
-								<TableBody>
-									<TableRow
-										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell component='th' scope='row'>
-											Qualification
-										</TableCell>
-										<TableCell align='right'>
-											{getStudent.qualification}
-										</TableCell>
-									</TableRow>
-									<TableRow
-										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell component='th' scope='row'>
-											Batch Name
-										</TableCell>
-										<TableCell align='right'>{getStudent.batchName}</TableCell>
-									</TableRow>
-									<TableRow
-										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell component='th' scope='row'>
-											Working Status
-										</TableCell>
-										<TableCell align='right'>
-											{getStudent.workingStatus}
-										</TableCell>
-									</TableRow>
-									<TableRow
-										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell component='th' scope='row'>
-											Total Experience
-										</TableCell>
-										<TableCell align='right'> {getStudent.yearOfExp}</TableCell>
-									</TableRow>
+				</Box>
+			)}
 
-									<TableRow
-										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell component='th' scope='row'>
-											Current CTC
-										</TableCell>
-										<TableCell align='right'>
-											{' '}
-											{getStudent.currentCTC}
-										</TableCell>
-									</TableRow>
-
-									<TableRow
-										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell
-											colSpan={2}
-											component='th'
-											scope='row'
-											align='center'>
-											<Button variant='outlined' onClick={editProfile}>
-												Edit
-											</Button>
-										
-										</TableCell>
-									</TableRow>
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Grid>
-				</Grid>
-			</Box>
-}
-
-      {editField && <EditProfile tempStudent={tempStudent} getStudent={getStudent} setTempStudent={setTempStudent}/>}
-       
+			{editField && (
+				<EditProfile
+					tempStudent={tempStudent}
+					getStudent={getStudent}
+					setTempStudent={setTempStudent}
+				/>
+			)}
 		</Box>
 	);
 };

@@ -1,5 +1,18 @@
 @import "../../theme/color";
-
+.grid-wrapper{
+    margin-top: 50px !important; 
+}
+.chart-wrapper{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    h3{
+        width: 100%;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+}
 .profile-card{
     font-family: 'Roboto Condensed', sans-serif;
     h3{
