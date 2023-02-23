@@ -58,3 +58,11 @@ export const updateStudentProfile = (id , data) => {
 export const getAttendanceCount = (id) => {
   return axios.get(`${baseUrl}/attendance/attendanceCount/${id}`);
 };
+
+export const getAllPlacementOpportunity = () => {
+  return axios.get(`${baseUrl}/placement/getAllPlacementOpportunity`);
+};
+
+export const getStudentPlacementOpportunity = (id) => {
+  return axios.get(`${baseUrl}/placement/getStudentPlacementOpportunity/${id}`)
+}

@@ -20,6 +20,8 @@ import StudentDashboard from "./components/dashboard/studentDashboard/StudentDas
 import PlacementDashboard from "./components/placement/dashboard/PlacementDashboard";
 import CompanyDatabase from "./components/placementStat/CompanyDatabase"
 import LearnerPlacementOpportunity from "./components/placementStat/LearnerPlacementOpportunity"
+import AllPlacement from "./components/placementStat/AllPlacement";
+import PlacementDetails from "./components/placementStat/PlacementDetails";
 function App() {
   const [cookies, setCookie] = useCookies();
   const ctx = useContext(UserContext);
@@ -59,6 +61,15 @@ function App() {
           {(data === "students" || cookies.userLogged) && (
             <Route path='/students' element={<Students />} />
           )}
+          {/* {cookies.userType === "careerService" ? (
+            <Route path='/studentDashboard' element={<StudentDashboard />} />
+          ) : (
+            <Route path='/dashboard' element={<Dashboard />} />
+          )} */}
+          {(cookies.userLogged) && (
+            <Route path='/allplacement' element={<AllPlacement />} />
+          )}
+          
           {(data === "faculty" || cookies.userLogged) && (
             <Route path='/faculty' element={<Faculty />} />
           )}
@@ -73,6 +84,9 @@ function App() {
           )}
           {cookies.userLogged && (
             <Route path='/profile' element={<Profile />} />
+          )}
+          {cookies.userLogged && (
+            <Route path='/placementDetails' element={<PlacementDetails />} />
           )}
           <Route path='/companydatabase' element={<CompanyDatabase />} />
           <Route path='/learnerplacementopportunity' element={<LearnerPlacementOpportunity />} />
