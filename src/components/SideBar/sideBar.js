@@ -21,6 +21,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import FaceIcon from "@mui/icons-material/Face";
 import Person3Icon from "@mui/icons-material/Person3";
 import WorkIcon from "@mui/icons-material/Work";
+import ApartmentIcon from '@mui/icons-material/Apartment';
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import DatasetIcon from "@mui/icons-material/Dataset";
 import UserContext from "../../context/UserContext";
@@ -159,6 +160,10 @@ const Sidebar = ({ getData }) => {
 
   const allplacement = () => {
     navigate(`/allplacement`);
+    
+  }
+  const companyList = () => {
+    navigate(`/companyList`);
     
   }
 
@@ -407,6 +412,14 @@ const Sidebar = ({ getData }) => {
                 </ListItemButton>
 
                 <Divider />
+                <ListItemButton onClick={companyList}>
+                  <ListItemIcon>
+                    <ApartmentIcon />
+                  </ListItemIcon>
+                  <ListItemText sx={{ opacity: open ? 1 : 0 }}>
+                    Job List
+                  </ListItemText>
+                </ListItemButton>
               </>
             )}
           </ListItem>

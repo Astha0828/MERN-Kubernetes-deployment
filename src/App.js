@@ -22,6 +22,8 @@ import CompanyDatabase from "./components/placementStat/CompanyDatabase"
 import LearnerPlacementOpportunity from "./components/placementStat/LearnerPlacementOpportunity"
 import AllPlacement from "./components/placementStat/AllPlacement";
 import PlacementDetails from "./components/placementStat/PlacementDetails";
+import CompanyList from "./components/placementStat/CompanyList";
+import JobDetails from "./components/placementStat/JobDetails";
 function App() {
   const [cookies, setCookie] = useCookies();
   const ctx = useContext(UserContext);
@@ -88,6 +90,13 @@ function App() {
           {cookies.userLogged && (
             <Route path='/placementDetails' element={<PlacementDetails />} />
           )}
+          {cookies.userLogged && (
+            <Route path='/companyList' element={<CompanyList />} />
+          )}
+          {cookies.userLogged && (
+            <Route path='/jobDetails' element={<JobDetails />} />
+          )}
+          
           <Route path='/companydatabase' element={<CompanyDatabase />} />
           <Route path='/learnerplacementopportunity' element={<LearnerPlacementOpportunity />} />
         </Routes>

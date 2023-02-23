@@ -66,3 +66,11 @@ export const getAllPlacementOpportunity = () => {
 export const getStudentPlacementOpportunity = (id) => {
   return axios.get(`${baseUrl}/placement/getStudentPlacementOpportunity/${id}`)
 }
+
+export const getCompanyList = () => {
+  return axios.get(`${baseUrl}/company/getCompanyList`)
+}
+
+export const getJobDetails = (id) => {
+  return axios.get(`${baseUrl}/company/getJobDetails/${id}`)
+}
