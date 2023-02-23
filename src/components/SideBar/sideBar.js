@@ -12,6 +12,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
+import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -155,6 +156,12 @@ const Sidebar = ({ getData }) => {
     setRegister(true);
     setModelType("capstoneAttendance");
   };
+
+  const allplacement = () => {
+    navigate(`/allplacement`);
+    
+  }
+
 
   const menuHandeler = (type) => {
     getData(type);
@@ -382,6 +389,20 @@ const Sidebar = ({ getData }) => {
                   </ListItemIcon>
                   <ListItemText sx={{ opacity: open ? 1 : 0 }}>
                     Capstone Attendance
+                  </ListItemText>
+                </ListItemButton>
+
+                <Divider />
+              </>
+            )}
+            {cookies.userType === "careerService" && (
+              <>
+                <ListItemButton onClick={allplacement}>
+                  <ListItemIcon>
+                    <WorkHistoryIcon />
+                  </ListItemIcon>
+                  <ListItemText sx={{ opacity: open ? 1 : 0 }}>
+                    Placement Stats
                   </ListItemText>
                 </ListItemButton>
 
