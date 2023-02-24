@@ -18,6 +18,7 @@ import './Profile.scss';
 import { Button } from '@mui/material';
 import EditProfile from './EditProfile';
 import ReactApexChart from 'react-apexcharts';
+import PlacementDetails from '../placementStat/PlacementDetails';
 const Profile = () => {
 	const [getStudent, setGetStudent] = useState([]);
 	const [getAttendance, setAttendance] = useState([]);
@@ -233,6 +234,8 @@ const Profile = () => {
 					editProfile={editProfile}
 				/>
 			)}
+
+			<PlacementDetails stuid={cookies.studentId} />
 		</Box>
 	);
 };
