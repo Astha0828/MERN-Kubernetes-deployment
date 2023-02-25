@@ -1,13 +1,10 @@
-import React, { useState, useContext, useEffect , useCallback } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import UserContext from '../../context/UserContext';
 import {
 	getSingleStudent,
 	getAttendanceCount,
-	getStudentAttendance,
 } from '../../api/Api';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -15,23 +12,23 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useCookies } from 'react-cookie';
-import TextField from '@mui/material/TextField';
 import './Profile.scss';
 import { Button } from '@mui/material';
 import EditProfile from './EditProfile';
 import ReactApexChart from 'react-apexcharts';
+import PlacementDetails from '../placementStat/PlacementDetails';
 const Profile = () => {
 	const [getStudent, setGetStudent] = useState([]);
 	const [getAttendance, setAttendance] = useState([]);
-	const [tempStudent, setTempStudent] = useState();
 	const [cookies, setCookie] = useCookies();
 	const [editField, setEditField] = useState(false);
-
+	const [data] = useState(true);
+	let [renderCount, setRenderCount] = useState([]);
 	const ctx = useContext(UserContext);
 	const userId = ctx.studentId;
+	
 	const [obj, setObject] = useState({
 		series: [1, 1],
 		options: {
@@ -40,7 +37,7 @@ const Profile = () => {
 				width: 380,
 				type: 'pie',
 			},
-			labels: ['Present', 'Absent'], 
+			labels: ['Present', 'Absent'],
 			responsive: [
 				{
 					breakpoint: 480,
@@ -57,7 +54,6 @@ const Profile = () => {
 		},
 	});
 
-
 	const DrawerHeader = styled('div')(({ theme }) => ({
 		display: 'flex',
 		alignItems: 'center',
@@ -73,63 +69,33 @@ const Profile = () => {
 		textAlign: 'center',
 		color: theme.palette.text.secondary,
 	}));
-
-	const getTotalAttendance = () => 
-	{
-		getAttendanceCount(`${cookies.studentId}`)
-			.then((res) => res.data.data)
-			.then((getAttendance) => setAttendance(getAttendance));
-		getAttendance.map((item) => {
-			setObject({
-				series: [item.present, item.absent],
-				
-				options: {
-					colors: ['#299617', '#DC143C'],
-					chart: {
-						width: 380,
-						type: 'pie',
-					},
-					labels: ['Present', 'Absent'], 
-					responsive: [
-						{
-							breakpoint: 480,
-							options: {
-								chart: {
-									width: 200,
-								},
-								legend: {
-									position: 'bottom',
-								},
-							},
-						},
-					],
-				},
-			});
-		});
-	}
+	console.log("userId" , cookies.studentId)
 	useEffect(() => {
 		getSingleStudent(`${cookies.studentId}`)
 			.then((res) => res.data)
 			.then((getStudent) => {
 				setGetStudent(getStudent);
-				setTempStudent(getStudent);
 			})
 			.catch((err) => {
 				console.log(err);
 			});
-
-		
-	}, [userId]);
+	}, [userId , editField]);
 
 	useEffect(() => {
 		getTotalAttendance();
-	}, [userId])
+	}, [userId]);
 
-	const editProfile = () => {
-		setEditField(true);
+	const getTotalAttendance = () => {
+		getAttendanceCount(`${cookies.studentId}`)
+			.then((res) => res.data)
+			.then((getAttendance) => setAttendance(getAttendance));
+			
+		// getAttendance.map(att => renderCount.push(att.absent , att.present))
 	};
-
-	
+	const editProfile = (data) => {
+		console.log(data)
+		setEditField(data);
+	};
 
 	return (
 		<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
@@ -144,7 +110,7 @@ const Profile = () => {
 										<img src={getStudent.userImage} alt='' />
 									</div>
 									<div className='profile-details'>
-										<h3>{getStudent.fullname}</h3>
+										<h3>{getStudent.fullname} , ({getStudent.username})</h3>
 										<h3>{getStudent.email}</h3>
 										<h3>{getStudent.phoneNo}</h3>
 										<h3>{getStudent.courseName}</h3>
@@ -240,14 +206,18 @@ const Profile = () => {
 							<Item>
 								<div className='chart-wrapper'>
 									<h3>Attendance</h3>
-							
-									<ReactApexChart
-										options={obj.options}
-										series={obj.series}
-										type='pie'
-										width={380}
-									/>
-							
+
+									{renderCount &&
+										getAttendance.map((att) => (
+											<>
+												<ReactApexChart
+													options={obj.options}
+													series={[att.absent, att.present]}
+													type='pie'
+													width={380}
+												/>
+											</>
+										))}
 								</div>
 							</Item>
 						</Grid>
@@ -260,11 +230,12 @@ const Profile = () => {
 
 			{editField && (
 				<EditProfile
-					tempStudent={tempStudent}
 					getStudent={getStudent}
-					setTempStudent={setTempStudent}
+					editProfile={editProfile}
 				/>
 			)}
+
+			<PlacementDetails stuid={cookies.studentId} />
 		</Box>
 	);
 };

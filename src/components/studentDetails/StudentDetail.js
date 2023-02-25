@@ -53,6 +53,7 @@ const StudentDetail = () => {
       StudentName: getStudent.fullname,
       BatchName: getStudent.batchName,
       attendanceDate: value,
+      email: getStudent.email,
       isPresent: attendance === "Present" ? true : false,
     };
     console.log(attData)
@@ -79,6 +80,9 @@ const StudentDetail = () => {
               </Typography>
               <Typography variant="body2"  className="student-contact">
                 {getStudent.phoneNo}
+              </Typography>
+              <Typography variant="body2"  className="student-contact">
+                {getStudent.email}
               </Typography>
 
               <LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
@@ -17,8 +17,7 @@ import { useCookies } from 'react-cookie';
 import TextField from '@mui/material/TextField';
 import './Profile.scss';
 import { Button } from '@mui/material';
-const EditProfile = ({ tempStudent, getStudent, setTempStudent }) => {
-	console.log('tempStudent', tempStudent);
+const EditProfile = ({ getStudent , editProfile }) => {
 	const DrawerHeader = styled('div')(({ theme }) => ({
 		display: 'flex',
 		alignItems: 'center',
@@ -35,51 +34,219 @@ const EditProfile = ({ tempStudent, getStudent, setTempStudent }) => {
 		color: theme.palette.text.secondary,
 	}));
 
-	const [fullname, setFullname] = useState();
-	const [profileEmail, setEmail] = useState('');
-	const [profilePhoneNo, setPhoneNo] = useState('');
-	const [profileCourseName, setCourseName] = useState('');
-	const [profilecurrentCTC, setcurrentCTC] = useState('');
-	const [profileQualification, setQualification] = useState('');
-	const [profileBatchName, setBatchName] = useState('');
-	const [profileWorkingStatus, setWorkingStatus] = useState('');
-	const [profileYearOfExp, setYearOfExp] = useState('');
+	const [formData, setFormData] = useState({
+		fname: getStudent.fullname,
+		username: getStudent.username,
+		email: getStudent.email,
+		phoneNo: getStudent.phoneNo,
+		courseName: getStudent.courseName,
+		qualification: getStudent.qualification,
+		batchName: getStudent.batchName,
+		workingStatus: getStudent.workingStatus,
+		yearOfExp: getStudent.yearOfExp,
+		currentCTC: getStudent.currentCTC,
+	});
 	const saveProfile = (e) => {
 		e.preventDefault();
 		updateStudentProfile(`${getStudent._id}`, {
-			fullname: fullname,
-			email: profileEmail,
+			fullname: formData.fname,
+			username: formData.username,
+			email: formData.email,
+			phoneNo: formData.phoneNo,
+			courseName: formData.courseName,
+			qualification: formData.qualification,
+			batchName: formData.batchName,
+			workingStatus: formData.workingStatus,
+			yearOfExp: formData.yearOfExp,
+			currentCTC: formData.currentCTC,
+		});
+		editProfile(false)
+	};
+	const handleInput = (e) => {
+		setFormData((prev) => {
+			let helper = { ...prev };
+			helper[`${e.target.id}`] = e.target.value;
+			return helper;
 		});
 	};
 	return (
 		<Box component='main' sx={{ flexGrow: 1 }}>
 			<DrawerHeader />
+			{/* <Box sx={{ flexGrow: 1 }}>
+				<Grid container spacing={2}>
+					<Grid item xs={6}>
+					<Item className='profile-card'>
+						<TextField
+							label="Fullname"
+							type='text'
+							id='fname'
+							value={formData.fname}
+							onChange={handleInput}
+							className="mb-2"
+						/>
+						<TextField
+							type='text'
+							id='email'
+							value={formData.email}
+							onChange={handleInput}
+						/>
+						<TextField
+							type='text'
+							id='phoneNo'
+							value={formData.phoneNo}
+							onChange={handleInput}
+						/>
+						<TextField
+							type='text'
+							id='courseName'
+							value={formData.courseName}
+							onChange={handleInput}
+						/>
+						</Item>
+					</Grid>
+					<Grid item xs={6}>
+					<TextField
+							type='text'
+							id='qualification'
+							value={formData.qualification}
+							onChange={handleInput}
+						/>
+						<TextField
+							type='text'
+							id='batchName'
+							value={formData.batchName}
+							onChange={handleInput}
+						/>
+						<TextField
+							type='text'
+							id='workingStatus'
+							value={formData.workingStatus}
+							onChange={handleInput}
+						/>
+						<TextField
+							type='text'
+							id='yearOfExp'
+							value={formData.yearOfExp}
+							onChange={handleInput}
+						/>
+						<TextField
+							type='text'
+							id='currentCTC'
+							value={formData.currentCTC}
+							onChange={handleInput}
+						/>
+					</Grid>
+				</Grid>
+			</Box> */}
 			<Box sx={{ flexGrow: 1 }}>
 				<Grid container spacing={2}>
-					<Grid item xs={5}>
-						<Item className='profile-card'>
+					<Grid item xs={6}>
+						<div className='profile-card'>
 							<div className='profile-wrapper'>
 								<div className='user-img'>
 									<img src={getStudent.userImage} alt='' />
 								</div>
 								<div className='profile-details'>
-									<h3>
-										<form>
-											<input
-												type='text'
-												value={tempStudent.fullname}
-												onChange={(e) => setFullname(e.target.value)}
-											/>
-										</form>
-									</h3>
-									<h3>{getStudent.email}</h3>
-									<h3>{getStudent.phoneNo}</h3>
-									<h3>{getStudent.courseName}</h3>
+									<TableContainer component={Paper}>
+										<Table aria-label='simple table'>
+											<TableBody>
+												<TableRow
+													sx={{
+														'&:last-child td, &:last-child th': { border: 0 },
+													}}>
+													<TableCell component='th' scope='row'>
+														Full Name
+													</TableCell>
+													<TableCell align='right'>
+														<TextField
+															label='Full Name'
+															type='text'
+															id='fname'
+															value={formData.fname}
+															onChange={handleInput}
+														/>
+													</TableCell>
+												</TableRow>
+
+												<TableRow
+													sx={{
+														'&:last-child td, &:last-child th': { border: 0 },
+													}}>
+													<TableCell component='th' scope='row'>
+														Username
+													</TableCell>
+													<TableCell align='right'>
+														<TextField
+															label='Username'
+															type='text'
+															id='username'
+															value={formData.username}
+															onChange={handleInput}
+														/>
+													</TableCell>
+												</TableRow>
+
+												<TableRow
+													sx={{
+														'&:last-child td, &:last-child th': { border: 0 },
+													}}>
+													<TableCell component='th' scope='row'>
+														Email
+													</TableCell>
+													<TableCell align='right'>
+														<TextField
+															label='Email'
+															type='text'
+															id='email'
+															value={formData.email}
+															onChange={handleInput}
+														/>
+													</TableCell>
+												</TableRow>
+
+												<TableRow
+													sx={{
+														'&:last-child td, &:last-child th': { border: 0 },
+													}}>
+													<TableCell component='th' scope='row'>
+														Mobile No.
+													</TableCell>
+													<TableCell align='right'>
+														<TextField
+															label='Mobile no.'
+															type='text'
+															id='phoneNo'
+															value={formData.phoneNo}
+															onChange={handleInput}
+														/>
+													</TableCell>
+												</TableRow>
+
+												<TableRow
+													sx={{
+														'&:last-child td, &:last-child th': { border: 0 },
+													}}>
+													<TableCell component='th' scope='row'>
+														Course Name
+													</TableCell>
+													<TableCell align='right'>
+														<TextField
+															label='Course Name'
+															type='text'
+															id='courseName'
+															value={formData.courseName}
+															onChange={handleInput}
+														/>
+													</TableCell>
+												</TableRow>
+											</TableBody>
+										</Table>
+									</TableContainer>
 								</div>
 							</div>
-						</Item>
+						</div>
 					</Grid>
-					<Grid item xs={7}>
+					<Grid item xs={6}>
 						<TableContainer component={Paper}>
 							<Table aria-label='simple table'>
 								<TableBody>
@@ -89,7 +256,12 @@ const EditProfile = ({ tempStudent, getStudent, setTempStudent }) => {
 											Qualification
 										</TableCell>
 										<TableCell align='right'>
-											{getStudent.qualification}
+											<TextField
+												type='text'
+												id='qualification'
+												value={formData.qualification}
+												onChange={handleInput}
+											/>
 										</TableCell>
 									</TableRow>
 									<TableRow
@@ -97,7 +269,14 @@ const EditProfile = ({ tempStudent, getStudent, setTempStudent }) => {
 										<TableCell component='th' scope='row'>
 											Batch Name
 										</TableCell>
-										<TableCell align='right'>{getStudent.batchName}</TableCell>
+										<TableCell align='right'>
+											<TextField
+												type='text'
+												id='batchName'
+												value={formData.batchName}
+												onChange={handleInput}
+											/>
+										</TableCell>
 									</TableRow>
 									<TableRow
 										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -105,7 +284,12 @@ const EditProfile = ({ tempStudent, getStudent, setTempStudent }) => {
 											Working Status
 										</TableCell>
 										<TableCell align='right'>
-											{getStudent.workingStatus}
+											<TextField
+												type='text'
+												id='workingStatus'
+												value={formData.workingStatus}
+												onChange={handleInput}
+											/>
 										</TableCell>
 									</TableRow>
 									<TableRow
@@ -113,7 +297,15 @@ const EditProfile = ({ tempStudent, getStudent, setTempStudent }) => {
 										<TableCell component='th' scope='row'>
 											Total Experience
 										</TableCell>
-										<TableCell align='right'> {getStudent.yearOfExp}</TableCell>
+										<TableCell align='right'>
+											{' '}
+											<TextField
+												type='text'
+												id='yearOfExp'
+												value={formData.yearOfExp}
+												onChange={handleInput}
+											/>
+										</TableCell>
 									</TableRow>
 
 									<TableRow
@@ -122,8 +314,12 @@ const EditProfile = ({ tempStudent, getStudent, setTempStudent }) => {
 											Current CTC
 										</TableCell>
 										<TableCell align='right'>
-											{' '}
-											{getStudent.currentCTC}
+											<TextField
+												type='text'
+												id='currentCTC'
+												value={formData.currentCTC}
+												onChange={handleInput}
+											/>
 										</TableCell>
 									</TableRow>
 
