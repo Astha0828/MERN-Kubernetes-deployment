@@ -25,9 +25,10 @@ const Profile = () => {
 	const [cookies, setCookie] = useCookies();
 	const [editField, setEditField] = useState(false);
 	const [data] = useState(true);
-	let [renderCount, setRenderCount] = useState([]);
 	const ctx = useContext(UserContext);
 	const userId = ctx.studentId;
+
+	let attn = []
 	
 	const [obj, setObject] = useState({
 		series: [1, 1],
@@ -89,13 +90,16 @@ const Profile = () => {
 		getAttendanceCount(`${cookies.studentId}`)
 			.then((res) => res.data)
 			.then((getAttendance) => setAttendance(getAttendance));
-			
-		// getAttendance.map(att => renderCount.push(att.absent , att.present))
-	};
+				};
 	const editProfile = (data) => {
 		console.log(data)
 		setEditField(data);
 	};
+	if(getAttendance.data){
+		console.log(getAttendance.data[0])
+		attn.push(getAttendance.data[0].totalAttendance, getAttendance.data[0].absent, getAttendance.data[0].present)
+		
+	}	
 
 	return (
 		<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
@@ -205,19 +209,14 @@ const Profile = () => {
 						<Grid item xs={6}>
 							<Item>
 								<div className='chart-wrapper'>
-									<h3>Attendance</h3>
-
-									{renderCount &&
-										getAttendance.map((att) => (
-											<>
-												<ReactApexChart
+									<h3>Class Attendance</h3>
+									<ReactApexChart
 													options={obj.options}
-													series={[att.absent, att.present]}
+													series={[attn[1], attn[2]]}
 													type='pie'
 													width={380}
 												/>
-											</>
-										))}
+									
 								</div>
 							</Item>
 						</Grid>

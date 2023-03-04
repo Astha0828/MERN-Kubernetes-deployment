@@ -74,3 +74,7 @@ export const getCompanyList = () => {
 export const getJobDetails = (id) => {
   return axios.get(`${baseUrl}/company/getJobDetails/${id}`)
 }
+
+export const getCareerServiceUser = (id) => {
+  return axios.get(`${baseUrl}/careerService/getcareeruser/${id}`)
+}

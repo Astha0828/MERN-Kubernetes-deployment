@@ -8,8 +8,9 @@ import Diversity1Icon from '@mui/icons-material/Diversity1';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import { getAllBatch , getAllStudent } from "../../api/Api";
+import { getAllBatch , getAllStudent, getCareerServiceUser } from "../../api/Api";
 import UserContext from "../../context/UserContext"
+import { useCookies } from "react-cookie";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -23,6 +24,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const Dashboard = () => {
   const [getBatch, setgetBatch] = useState([]);
   const [allStudent, setAllStudent] = useState([]);
+  const [cookies, setCookie] = useCookies();
+  const [currentuser, setCurrentuser] = useState([]);
+
 
  
   useEffect(() => {
@@ -39,13 +43,21 @@ const Dashboard = () => {
     .catch((err) => {
       console.log(err);
     });
+    if(cookies.userType == "careerService"){
+      getCareerServiceUser(cookies.userId)
+      .then(res => res.data)
+      .then(currentuser => setCurrentuser(currentuser))
+      .catch(err=>{
+        console.log(err)
+      })
+    }
   }, [])
   return (
     <>
    
     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
       <DrawerHeader />
-      <h3>Hi, Welcome back Aseem</h3>
+      <h3>Hi, Welcome back {currentuser.fullname}</h3>
       <div className="static-card-wrapper">
       <Card className="card">
         <CardContent>
