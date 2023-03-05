@@ -48,6 +48,7 @@ export const getAllCapstoneProgress = () => {
 };
 
 export const getCapstoneDetails = (id)=>{
+  console.log('inside fun',id)
   return  axios.get(`${baseUrl}/capstoneProgress/getCapstoneDetails/${id}`);
 
 };

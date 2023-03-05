@@ -38,7 +38,7 @@ function PlacementDetails({stuid}) {
 		console.log('Not fetched' + allOpportunity.length);
 		return <>Cannot Fetch</>;
 	} else {
-		console.log('fetched' + allOpportunity.length);
+		console.log('fetched' + allOpportunity);
 		return (
 			<>
 				<Box component='main' sx={{ flexGrow: 1, p: 3 }}>

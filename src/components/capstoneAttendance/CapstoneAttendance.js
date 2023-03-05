@@ -11,7 +11,6 @@ import MenuItem from "@mui/material/MenuItem";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { capstoneAttendance, getAllStudent, getAllBatch } from "../../api/Api";
 import { useEffect } from "react";
-import {toast } from 'react-toastify'
 const theme = createTheme();
 
 
