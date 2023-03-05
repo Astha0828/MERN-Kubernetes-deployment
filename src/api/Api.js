@@ -40,7 +40,7 @@ export const capstoneData = (params) => {
 };
 
 export const capstoneAttendance = (params) => {
-  return axios.post(`${baseUrl}/attendance`, params);
+  return axios.post(`${baseUrl}/attendance/capstoneAttendance`, params);
 };
 
 export const markAttendance = (params) => {
