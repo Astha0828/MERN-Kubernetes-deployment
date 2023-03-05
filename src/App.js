@@ -25,6 +25,8 @@ import PlacementDetails from "./components/placementStat/PlacementDetails";
 import CompanyList from "./components/placementStat/CompanyList";
 import JobDetails from "./components/placementStat/JobDetails";
 import AddJobs from "./components/placementStat/AddJobs";
+import CapstoneProgress from "./components/capstoneProgress/CapstoneProgress";
+import CapstoneDetails from "./components/capstoneProgress/CapstoneDetails";
 function App() {
   const [cookies, setCookie] = useCookies();
   const ctx = useContext(UserContext);
@@ -91,11 +93,19 @@ function App() {
           {cookies.userLogged && (
             <Route path='/placementDetails' element={<PlacementDetails />} />
           )}
+          {
+            cookies.userLogged&&(
+              <Route path='/capstoneProgress' element={<CapstoneProgress/>}/>
+            )
+          }
           {cookies.userLogged && (
             <Route path='/companyList' element={<CompanyList />} />
           )}
           {cookies.userLogged && (
             <Route path='/jobDetails' element={<JobDetails />} />
+          )}
+          {cookies.userLogged && (
+            <Route path='/capstoneDetails' element={<CapstoneDetails/>} />
           )}
           {cookies.userLogged && (
             <Route path='/addjobDetails' element={<AddJobs />} />

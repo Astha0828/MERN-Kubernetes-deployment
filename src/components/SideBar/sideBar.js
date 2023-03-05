@@ -25,6 +25,7 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import DatasetIcon from "@mui/icons-material/Dataset";
 import UserContext from "../../context/UserContext";
+import DonutSmallIcon from '@mui/icons-material/DonutSmall';
 import "./sidebar.scss";
 import RegisterNewUser from "../../modals/RegisterNewUser";
 import DynamicFormIcon from "@mui/icons-material/DynamicForm";
@@ -165,6 +166,10 @@ const Sidebar = ({ getData }) => {
   const companyList = () => {
     navigate(`/companyList`);
     
+  }
+
+  const allCapstoneProgress = ()=>{
+    navigate('/capstoneProgress')
   }
 
 
@@ -418,6 +423,16 @@ const Sidebar = ({ getData }) => {
                   </ListItemIcon>
                   <ListItemText sx={{ opacity: open ? 1 : 0 }}>
                     Job List
+                  </ListItemText>
+                </ListItemButton>
+                <Divider />
+
+                <ListItemButton onClick={allCapstoneProgress}>
+                  <ListItemIcon>
+                    <DonutSmallIcon/>
+                  </ListItemIcon>
+                  <ListItemText sx={{ opacity: open ? 1 : 0 }}>
+                    Capstone Progress
                   </ListItemText>
                 </ListItemButton>
               </>

@@ -43,6 +43,15 @@ export const capstoneAttendance = (params) => {
   return axios.post(`${baseUrl}/attendance/capstoneAttendance`, params);
 };
 
+export const getAllCapstoneProgress = () => {
+  return axios.get(`${baseUrl}/capstoneProgress/getAllCapstoneProgress`);
+};
+
+export const getCapstoneDetails = (id)=>{
+  return  axios.get(`${baseUrl}/capstoneProgress/getCapstoneDetails/${id}`);
+
+};
+
 export const markAttendance = (params) => {
   return axios.post(`${baseUrl}/attendance/register`, params);
 };
