@@ -102,8 +102,8 @@ const Login = () => {
           md={7}
           sx={{
             backgroundImage:
-              "url(https://herovired.com/wp-content/uploads/2021/03/Vired-About-Us-Banner.png)",
-            backgroundRepeat: "repeat",
+              "url(https://herovired.com/wp-content/uploads/2022/06/hero-vired-cobrand-logo.svg)",
+            backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
                 ? t.palette.grey[50]
