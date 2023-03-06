@@ -1,6 +1,7 @@
 // import React from "react";
 import axios from "axios";
-const baseUrl = "http://localhost:3001";
+// const baseUrl = "http://localhost:3001";
+const baseUrl = "https://lrcapi.prashantdey.in";
 const token = sessionStorage.getItem("token");
 export const RegisterUser = async (params, type) => {
   return await axios.post(`${baseUrl}/${type}/register`, params);
