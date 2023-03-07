@@ -74,6 +74,7 @@ const StudentDetail = () => {
   };
   let data = {
     StudentName: getStudent.fullname,
+    StudentId:getStudent._id,
     BatchNumber: getStudent.batchName,
     CourseName: getStudent.courseName,
     CapstoneName: capstoneName,
