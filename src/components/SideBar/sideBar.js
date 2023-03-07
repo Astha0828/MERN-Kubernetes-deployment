@@ -377,7 +377,7 @@ const Sidebar = ({ getData }) => {
                 <Divider />
               </>
             )}
-            {cookies.userType === "faculty" && (
+            {/* {cookies.userType === "faculty" && (
               <>
                 <ListItemButton onClick={uploadCapstoneData}>
                   <ListItemIcon>
@@ -390,8 +390,8 @@ const Sidebar = ({ getData }) => {
 
                 <Divider />
               </>
-            )}
-            {cookies.userType === "faculty" && (
+            )} */}
+            {/* {cookies.userType === "faculty" && (
               <>
                 <ListItemButton onClick={capstoneAttendance}>
                   <ListItemIcon>
@@ -404,7 +404,7 @@ const Sidebar = ({ getData }) => {
 
                 <Divider />
               </>
-            )}
+            )} */}
             {cookies.userType === "careerService" && (
               <>
                 <ListItemButton onClick={allplacement}>

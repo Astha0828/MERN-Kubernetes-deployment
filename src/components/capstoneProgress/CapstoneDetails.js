@@ -164,7 +164,7 @@ function CapstoneDetails() {
           <Box>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <h4>Submition</h4>
+                <h4>Submission</h4>
                 <TableContainer component={Paper}>
                   <Table aria-label="simple table">
                     <TableBody>
