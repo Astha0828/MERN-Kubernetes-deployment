@@ -20,24 +20,35 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-function CapstoneDetails() {
+function CapstoneDetails(props) {
   const [capstoneDetails, setAllCapstoneDetails] = useState([]);
   const [len, setLen] = useState(0)
   const [cookies, setCookie] = useCookies();
   console.log(cookies.cpid)
 
   useEffect(() => {
-    getCapstoneDataById(cookies.cpid)
-      .then((res) => {
-        console.log('this is response data: ',res.data)
-        setAllCapstoneDetails(res.data[0])
-        setLen(Object.keys(res.data).length)
-      })
-      .catch((err) => console.log(err));
+    if (!props.stuid) {
+      getCapstoneDataById(cookies.cpid)
+        .then((res) => {
+          console.log('this is response data: ', res.data)
+          setAllCapstoneDetails(res.data[0])
+          setLen(Object.keys(res.data).length)
+        })
+        .catch((err) => console.log(err));
+    }else{
+      getCapstoneDataById(props.stuid)
+        .then((res) => {
+          console.log('this is response data: ', res.data)
+          setAllCapstoneDetails(res.data[0])
+          setLen(Object.keys(res.data).length)
+        })
+        .catch((err) => console.log(err));
+    }
   }, [cookies.cpid]);
 
+
   if (len) {
-    console.log('inside if',capstoneDetails)
+    console.log('inside if', capstoneDetails)
     return (
       <>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -318,9 +329,9 @@ function CapstoneDetails() {
       </>
     );
   }
-  else{
-    return(<>
-    <h1>Loading ...</h1>
+  else {
+    return (<>
+      <h1>Loading ...</h1>
     </>)
   }
 }

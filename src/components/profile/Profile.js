@@ -19,6 +19,8 @@ import { Button } from '@mui/material';
 import EditProfile from './EditProfile';
 import ReactApexChart from 'react-apexcharts';
 import PlacementDetails from '../placementStat/PlacementDetails';
+import CapstoneDetails from '../capstoneProgress/CapstoneDetails'
+
 const Profile = () => {
 	const [getStudent, setGetStudent] = useState([]);
 	const [getAttendance, setAttendance] = useState([]);
@@ -29,7 +31,7 @@ const Profile = () => {
 	const userId = ctx.studentId;
 
 	let attn = []
-	
+
 	const [obj, setObject] = useState({
 		series: [1, 1],
 		options: {
@@ -70,7 +72,7 @@ const Profile = () => {
 		textAlign: 'center',
 		color: theme.palette.text.secondary,
 	}));
-	console.log("userId" , cookies.studentId)
+	console.log("userId", cookies.studentId)
 	useEffect(() => {
 		getSingleStudent(`${cookies.studentId}`)
 			.then((res) => res.data)
@@ -80,7 +82,7 @@ const Profile = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-	}, [userId , editField]);
+	}, [userId, editField]);
 
 	useEffect(() => {
 		getTotalAttendance();
@@ -90,16 +92,16 @@ const Profile = () => {
 		getAttendanceCount(`${cookies.studentId}`)
 			.then((res) => res.data)
 			.then((getAttendance) => setAttendance(getAttendance));
-				};
+	};
 	const editProfile = (data) => {
 		console.log(data)
 		setEditField(data);
 	};
-	if(getAttendance.data){
+	if (getAttendance.data) {
 		console.log(getAttendance.data[0])
 		attn.push(getAttendance.data[0].totalAttendance, getAttendance.data[0].absent, getAttendance.data[0].present)
-		
-	}	
+
+	}
 
 	return (
 		<Box component='main' sx={{ flexGrow: 1, p: 3 }}>
@@ -211,19 +213,32 @@ const Profile = () => {
 								<div className='chart-wrapper'>
 									<h3>Class Attendance</h3>
 									<ReactApexChart
-													options={obj.options}
-													series={[attn[1], attn[2]]}
-													type='pie'
-													width={380}
-												/>
-									
+										options={obj.options}
+										series={[attn[1], attn[2]]}
+										type='pie'
+										width={380}
+									/>
+
 								</div>
 							</Item>
 						</Grid>
 						<Grid item xs={6}>
-							<Item>xs=4</Item>
+							<Item>
+								<div className='chart-wrapper'>
+									<h3>Capstone Attendance</h3>
+									<ReactApexChart
+										options={obj.options}
+										series={[attn[1], attn[2]]}
+										type='pie'
+										width={380}
+									/>
+
+								</div>
+							</Item>
 						</Grid>
 					</Grid>
+
+
 				</Box>
 			)}
 
@@ -235,6 +250,7 @@ const Profile = () => {
 			)}
 
 			<PlacementDetails stuid={cookies.studentId} />
+			<CapstoneDetails stuid={cookies.studentId}></CapstoneDetails>
 		</Box>
 	);
 };

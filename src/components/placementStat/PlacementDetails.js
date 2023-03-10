@@ -26,7 +26,7 @@ function PlacementDetails({stuid}) {
 	const [cookies, setCookie] = useCookies();
 
 	useEffect(() => {
-		getStudentPlacementOpportunity(`${cookies.sid}`)
+		getStudentPlacementOpportunity(`${cookies.studentId}`)
 			.then((res) => res.data)
 			.then((allOpportunity) => setAllOpportunity(allOpportunity))
 			.catch((err) => {
