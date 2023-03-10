@@ -1,4 +1,4 @@
-import { getCapstoneDetails } from "../../api/Api";
+import { getCapstoneDetails, getCapstoneDataById } from "../../api/Api";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { Box } from "@mui/material";
@@ -27,10 +27,10 @@ function CapstoneDetails() {
   console.log(cookies.cpid)
 
   useEffect(() => {
-    getCapstoneDetails(cookies.cpid)
+    getCapstoneDataById(cookies.cpid)
       .then((res) => {
         console.log('this is response data: ',res.data)
-        setAllCapstoneDetails(res.data)
+        setAllCapstoneDetails(res.data[0])
         setLen(Object.keys(res.data).length)
       })
       .catch((err) => console.log(err));
@@ -58,7 +58,7 @@ function CapstoneDetails() {
                           Name:
                         </TableCell>
                         <TableCell align="right">
-                          {capstoneDetails?.email?.split("@")[0]}
+                          {capstoneDetails.StudentName}
                         </TableCell>
                       </TableRow>
                       <TableRow
@@ -71,7 +71,7 @@ function CapstoneDetails() {
                         </TableCell>
                         <TableCell align="right">
                           {" "}
-                          {capstoneDetails.email}
+                          {capstoneDetails.StudentEmail}
                         </TableCell>
                       </TableRow>
                       <TableRow
@@ -83,7 +83,7 @@ function CapstoneDetails() {
                           Capstone Start Date:
                         </TableCell>
                         <TableCell align="right">
-                          {capstoneDetails.capstoneStartDate}
+                          {capstoneDetails.StartDate}
                         </TableCell>
                       </TableRow>
                       <TableRow
@@ -95,7 +95,7 @@ function CapstoneDetails() {
                           Capstone End Date:
                         </TableCell>
                         <TableCell align="right">
-                          {capstoneDetails.capstoneEndDate}
+                          {capstoneDetails.EndDate}
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -127,7 +127,7 @@ function CapstoneDetails() {
                           Capstone Project Name:
                         </TableCell>
                         <TableCell align="right">
-                          {capstoneDetails.capstoneProjectName}
+                          {capstoneDetails.CapstoneName}
                         </TableCell>
                       </TableRow>
                       <TableRow

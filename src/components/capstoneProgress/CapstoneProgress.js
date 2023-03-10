@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Box } from "@mui/material";
-import { getAllCapstoneProgress } from "../../api/Api";
+import { getAllCapstoneData } from "../../api/Api";
 import Grid from "@mui/material/Grid";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -50,10 +50,11 @@ const CapstoneProgress = () => {
   const [cookies, setCookie] = useCookies();
   const [allCapstone, setAllCapstone] = useState([]);
   const navigate = useNavigate();
+  const todayDate = new Date();
 
   useEffect(() => {
     
-    getAllCapstoneProgress()
+    getAllCapstoneData()
       .then((res) => res.data)
       .then((allCapstone) => setAllCapstone(allCapstone))
       .catch((err) => {
@@ -130,23 +131,24 @@ const CapstoneProgress = () => {
                 <StyledTableRow
                   className="cursor-pointer"
                   key={data._id}
-                  onClick={() => showCapstoneProgress(data._id)}
+                  onClick={() => showCapstoneProgress(data.StudentId)}
                 >
-                  <StyledTableCell component="th" scope="row">
                   
-                    {data.email.split('@')[0]}
+                  <StyledTableCell align="left">
+                    {data.StudentName}
+                  </StyledTableCell>
+                  
+                  <StyledTableCell align="left">
+                    {data.CapstoneName}
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    {data.capstoneProjectName}
+                    {data.FacultyAssigned}
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    {data.facultyResponsible}
+                    {data.EndDate}
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    {data.capstoneEndDate}
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    {data.Status}
+                    { data.Status}
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

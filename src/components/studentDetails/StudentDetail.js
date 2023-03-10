@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import {
   capstoneAttendance,
-  capstoneData,
+  addCapstoneData,
   getSingleStudent,
   markAttendance,
 } from "../../api/Api";
@@ -22,6 +22,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextField from "@mui/material/TextField";
+import Autocomplete from '@mui/material/Autocomplete';
 import "./studentDetails.scss";
 import Button from "@mui/material/Button";
 import { Paper } from "@mui/material";
@@ -44,7 +45,13 @@ const StudentDetail = () => {
   const [endDate, setEndDate] = useState(null);
   const [sessionDate, setSessionDate] = useState(null);
   const [capstoneAtt, setCapstoneAttendance] = useState("Present");
+  const [facultyAssigned, setFacultyAssigned] = useState("")
+  const [status, setStatus] = useState("")
+  const [facultyComment, setFacultyComment] = useState("")
+  const [projectLink, setProjectLink] = useState("")
+  const [ capstoneSkillRequired, setCapstoneSkillRequired ]= useState("")
   const params = useParams();
+  const allStatus = ['On Going', 'Not Active', 'Not Started', 'Completed', 'Late Submission', 'Not Qualified']
   //   const getStudentDetails = getSingleStudent(params.id);
   useEffect(() => {
     getSingleStudent(params.id)
@@ -74,18 +81,24 @@ const StudentDetail = () => {
   };
   let data = {
     StudentName: getStudent.fullname,
-    StudentId:getStudent._id,
+    StudentEmail: getStudent.email,
+    Status: status,
+    StudentId: getStudent._id,
     BatchNumber: getStudent.batchName,
     CourseName: getStudent.courseName,
     CapstoneName: capstoneName,
     StartDate: startDate?.$d.toLocaleString(),
     EndDate: endDate?.$d.toLocaleString(),
+    FacultyAssigned: facultyAssigned,
+    facultyComment: facultyComment,
+    projectLink: projectLink,
+    capstoneSkillRequired: capstoneSkillRequired
   };
   const handleCapstoneSubmit = (e) => {
     e.preventDefault();
-    console.log(data);
-    capstoneData(data)
-      .then((res) => console.log(res), e.target.reset())
+    console.log('printing the data:', data);
+    addCapstoneData(data)
+      .then((res) => console.log('response: ', res), e.target.reset())
       .catch((err) => console.error(err));
     // e.target.reset()
   };
@@ -197,6 +210,70 @@ const StudentDetail = () => {
             autoComplete="CapstoneName"
             autoFocus
             onChange={(e) => setCapstoneName(e.target.value)}
+          />
+          <TextField
+            type="text"
+            margin="normal"
+            required
+            sx={{ width: 300 }}
+            id="SkillRequired"
+            label="Skill Required"
+            name="SkillRequired"
+            value={capstoneSkillRequired}
+            autoComplete="SkillRequired"
+            autoFocus
+            onChange={(e) => setCapstoneSkillRequired(e.target.value)}
+          />
+          <TextField
+            type="text"
+            margin="normal"
+            required
+            sx={{ width: 300 }}
+            id="FacultyName"
+            label="Faculty Name"
+            name="FacultyName"
+            value={facultyAssigned}
+            autoComplete="FacultyName"
+            autoFocus
+            onChange={(e) => setFacultyAssigned(e.target.value)}
+          />
+          
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            options={allStatus}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params}
+              label="Status" 
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+               />}
+          />
+          <TextField
+            type="text"
+            margin="normal"
+            required
+            sx={{ width: 300 }}
+            id="ProjectLink"
+            label="Project Link"
+            name="ProjectLink"
+            value={projectLink}
+            autoComplete="ProjectLink"
+            autoFocus
+            onChange={(e) => setProjectLink(e.target.value)}
+          />
+          <TextField
+            type="text"
+            margin="normal"
+            required
+            sx={{ width: 300 }}
+            id="FacultyComment"
+            label="Faculty Comment"
+            name="FacultyComment"
+            value={facultyComment}
+            autoComplete="FacultyComment"
+            autoFocus
+            onChange={(e) => setFacultyComment(e.target.value)}
           />
 
           <LocalizationProvider dateAdapter={AdapterDayjs}>

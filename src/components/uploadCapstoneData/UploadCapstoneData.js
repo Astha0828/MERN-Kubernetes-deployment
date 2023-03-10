@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-import { capstoneData } from "../../api/Api";
+import { addCapstoneData } from "../../api/Api";
 
 const theme = createTheme();
 
@@ -29,7 +29,7 @@ const UploadCapstoneData = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    capstoneData(data)
+    addCapstoneData(data)
       .then((res) => console.log(res), e.target.reset())
       .catch((err) => console.error(err));
     // e.target.reset()

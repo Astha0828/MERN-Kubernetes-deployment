@@ -1,7 +1,7 @@
 // import React from "react";
 import axios from "axios";
-// const baseUrl = "http://localhost:3001";
-const baseUrl = "https://lrcapi.prashantdey.in";
+const baseUrl = "http://localhost:3001";
+// const baseUrl = "https://lrcapi.prashantdey.in";
 const token = sessionStorage.getItem("token");
 export const RegisterUser = async (params, type) => {
   return await axios.post(`${baseUrl}/${type}/register`, params);
@@ -36,9 +36,7 @@ export const getAllBatch = () => {
 export const createNewBatch = (params) => {
   return axios.post(`${baseUrl}/batch/register`, params);
 };
-export const capstoneData = (params) => {
-  return axios.post(`${baseUrl}/capstonedata`, params);
-};
+
 
 export const capstoneAttendance = (params) => {
   return axios.post(`${baseUrl}/attendance/capstoneAttendance`, params);
@@ -88,4 +86,16 @@ export const getJobDetails = (id) => {
 
 export const getCareerServiceUser = (id) => {
   return axios.get(`${baseUrl}/careerService/getcareeruser/${id}`)
+}
+
+export const addCapstoneData = (params) => {
+  return axios.post(`${baseUrl}/capstone/addCapstoneData/`, params)
+}
+
+export const getAllCapstoneData = () => {
+  return axios.get(`${baseUrl}/capstone/`)
+}
+
+export const getCapstoneDataById = (id) => {
+  return axios.get(`${baseUrl}/capstone/${id}`)
 }
