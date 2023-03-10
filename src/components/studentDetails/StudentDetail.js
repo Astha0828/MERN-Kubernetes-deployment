@@ -26,6 +26,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import "./studentDetails.scss";
 import Button from "@mui/material/Button";
 import { Paper } from "@mui/material";
+import { useCookies } from "react-cookie";
 
 const StudentDetail = () => {
   const DrawerHeader = styled("div")(({ theme }) => ({
@@ -50,9 +51,11 @@ const StudentDetail = () => {
   const [facultyComment, setFacultyComment] = useState("")
   const [projectLink, setProjectLink] = useState("")
   const [ capstoneSkillRequired, setCapstoneSkillRequired ]= useState("")
+  const [ cookies, setCookie ] = useCookies('');
   const params = useParams();
   const allStatus = ['On Going', 'Not Active', 'Not Started', 'Completed', 'Late Submission', 'Not Qualified']
   //   const getStudentDetails = getSingleStudent(params.id);
+  
   useEffect(() => {
     getSingleStudent(params.id)
       .then((res) => res.data)
@@ -60,6 +63,7 @@ const StudentDetail = () => {
       .catch((err) => {
         console.log(err);
       });
+      setCookie('studentId',params.id);
   }, [params.id]);
 
   const getAttendanceValue = (e) => {
@@ -104,6 +108,7 @@ const StudentDetail = () => {
   };
   let capstoneAttendancedata = {
     StudentName: getStudent.fullname,
+    StudentId: params.id,
     CourseName: getStudent.courseName,
     BatchNumber: getStudent.batchName,
     SessionDate: sessionDate?.$d.toLocaleString(),

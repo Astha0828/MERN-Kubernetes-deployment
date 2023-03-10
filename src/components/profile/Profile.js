@@ -5,6 +5,7 @@ import UserContext from '../../context/UserContext';
 import {
 	getSingleStudent,
 	getAttendanceCount,
+	getCapstoneAttendanceValue,
 } from '../../api/Api';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -24,6 +25,7 @@ import CapstoneDetails from '../capstoneProgress/CapstoneDetails'
 const Profile = () => {
 	const [getStudent, setGetStudent] = useState([]);
 	const [getAttendance, setAttendance] = useState([]);
+	const [capstoneAttendance, setCapstoneAttendance] = useState();
 	const [cookies, setCookie] = useCookies();
 	const [editField, setEditField] = useState(false);
 	const [data] = useState(true);
@@ -72,7 +74,7 @@ const Profile = () => {
 		textAlign: 'center',
 		color: theme.palette.text.secondary,
 	}));
-	console.log("userId", cookies.studentId)
+	console.log("studentId", cookies.studentId)
 	useEffect(() => {
 		getSingleStudent(`${cookies.studentId}`)
 			.then((res) => res.data)
@@ -86,7 +88,18 @@ const Profile = () => {
 
 	useEffect(() => {
 		getTotalAttendance();
+		getCapstoneAttendance();
 	}, [userId]);
+
+	// useEffect(()=> {
+	// 	setCapstoneAttendance(getCapstoneAttendanceValue(cookies.studentId))
+	// 	console.log('capstoneAttendanceVal', capstoneAttendance)
+	// },[userId])
+	const getCapstoneAttendance = () => {
+		getCapstoneAttendanceValue(`${cookies.studentId}`)
+			.then((res) => res.data)
+			.then((getAttendance) => setCapstoneAttendance(getAttendance));
+	}
 
 	const getTotalAttendance = () => {
 		getAttendanceCount(`${cookies.studentId}`)
@@ -101,6 +114,10 @@ const Profile = () => {
 		console.log(getAttendance.data[0])
 		attn.push(getAttendance.data[0].totalAttendance, getAttendance.data[0].absent, getAttendance.data[0].present)
 
+	}
+	if (capstoneAttendance){
+		console.log(capstoneAttendance)
+		// attn.push(capstoneAttendance[0].totalAttendance, capstoneAttendance[0].absent, capstoneAttendance[0].present)
 	}
 
 	return (
@@ -214,7 +231,7 @@ const Profile = () => {
 									<h3>Class Attendance</h3>
 									<ReactApexChart
 										options={obj.options}
-										series={[attn[1], attn[2]]}
+										series={[attn[2], attn[1]]}
 										type='pie'
 										width={380}
 									/>
@@ -228,7 +245,7 @@ const Profile = () => {
 									<h3>Capstone Attendance</h3>
 									<ReactApexChart
 										options={obj.options}
-										series={[attn[1], attn[2]]}
+										series={[capstoneAttendance.present, capstoneAttendance.absent]}
 										type='pie'
 										width={380}
 									/>
