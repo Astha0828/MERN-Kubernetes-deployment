@@ -1,13 +1,13 @@
 import React from "react";
 import { Drawer, AppBar, Toolbar, Box, IconButton } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
-import AccountCircle from "@mui/icons-material/AccountCircle";
+
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
-import SideBar from "../SideBar/sideBar";
+import SideBar from "../SideBar/FacultySidebar";
 import AccountPopover from "./AccountPopover";
 
-const navBar = () => {
+const FacultyNavbar = () => {
   const drawerWidth = 280;
   return (
     <>
@@ -30,15 +30,13 @@ const navBar = () => {
           </IconButton>
 
           <Box>
-
+            
             <IconButton>
               <NotificationsIcon />
             </IconButton>
             <IconButton>
-     <AccountPopover/>
+              <AccountPopover/>
             </IconButton>
-
-
           </Box>
         </Toolbar>
       </AppBar>
@@ -68,4 +66,4 @@ const navBar = () => {
   );
 };
 
-export default navBar;
+export default FacultyNavbar;

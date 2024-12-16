@@ -18,36 +18,16 @@ import profileImage from "../../images/avatar_default.png";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoDevIcon from "@mui/icons-material/LogoDev";
 import DataContext from "../../context/DataContext";
-
-
+// import { Link } from "react-router-dom";
 
 const menuItems = [
   {
     name: "Dashboard",
     icon: <DashboardIcon />,
-    path: "/dashboard",
+    path: "/student",
   },
-  {
-    name: "Students",
-    icon: <AccountBoxIcon />,
-    path: "/users",
-  },
-  {
-    name: "Faculty",
-    icon: <AccountBoxIcon />,
-    path: "/faculty",
-  },
-  {
-    name: "CareerServices",
-    icon: <AccountBoxIcon />,
-    path: "/career",
-  },
-  {
-   
-    name: "UserRegister",
-    icon: <AccountBoxIcon />,
-    path: "/registerUser",
-  },
+
+
 ];
 const SideBar = () => {
   const ctx = useContext(DataContext);
@@ -82,7 +62,7 @@ const SideBar = () => {
           variant='h6'
           sx={{ ml: "16px", fontSize: "0.875rem", fontWeight: "600" }}
         >
-     {ctx.manage.userdetails.username}
+        {ctx.manage.userdetails.username}
         </Typography>
       </Box>
 
@@ -118,3 +98,4 @@ const SideBar = () => {
 
 export default SideBar;
 
+//

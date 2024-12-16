@@ -1,8 +1,5 @@
 import { createContext } from "react";
 
-const DataContext =createContext({
-    isloggedin:false,
-    setisloggedin:()=>{}
-})
+const DataContext = createContext();
 
 export default DataContext;

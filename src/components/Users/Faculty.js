@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState } from "react";
 // import { getUsers } from "../../api/queries";
 import { DataGrid } from "@mui/x-data-grid";
 import Avatar from "@mui/material/Avatar";
@@ -9,9 +9,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { Button, Typography } from "@mui/material";
 import { faker } from "@faker-js/faker";
 import axios from "axios";
-import DataContext from "../../context/DataContext";
 import { GridToolbar } from '@mui/x-data-grid';
-// import { useDemoData } from '@mui/x-data-grid-generator';
+
 const columns = [
   {
     field: "username",
@@ -20,14 +19,14 @@ const columns = [
     headerName: "Name",
     sortable: true,
     minWidth: 200,
-    // renderCell: (params) => {
-    //   return (
-    //     <>
-    //       <Avatar src={params.value.userImage} sx={{ mr: "8px" }} />
-    //       {params.value.name}
-    //     </>
-    //   );
-    // },
+    renderCell: (params) => {
+      return (
+        <>
+          <Avatar src={params.value.image} sx={{ mr: "8px" }} />
+          {params.value.name}
+        </>
+      );
+    },
   },
   {
     field: "fullname",
@@ -46,8 +45,8 @@ const columns = [
     flex: 1,
   },
   {
-    field: "batchName",
-    headerName: "batchName",
+    field: "workingStatus",
+    headerName: "WorkingStatus",
     sortable: false,
     minWidth: 130,
     headerClassName: "users-header",
@@ -92,26 +91,20 @@ const columns = [
   },
 ];
 
-const Users = (props) => {
-  const ctx = useContext(DataContext);
- 
+const Faculty = (props) => {
+  let id = faker.datatype.uuid()
+  const [listOfUsers, setListOfUsers] = useState([]);
+
   useEffect(() => {
-  
+
     async function fetchUsers() {
-      let res = await axios.get("http://localhost:3000/student/getstudent")
-      console.log(res.data);
-      ctx.setListOfUsers(res.data);
+      let res = await axios.get("http://localhost:3000/faculty/getfaculty")
+      setListOfUsers(res.data.result);
     }
     fetchUsers()
-   
-
   }, []);
-  
+  console.log(listOfUsers);
 
-
-
-  
-  
   return (
     <Box sx={{ padding: "10px" }}>
       <Box
@@ -122,8 +115,7 @@ const Users = (props) => {
           justifyContent: "space-between",
         }}
       >
-       
-    
+
       </Box>
 
       <Box
@@ -143,34 +135,34 @@ const Users = (props) => {
             borderRadius: "5px",
           }}
         >
-         
+      
         </Box>
 
-         <DataGrid
-      
+        <DataGrid
+
           columns={columns}
-          rows={ctx.listOfUsers}
-         
-          getRowId={(row)=>row._id}
-        components={{
-          Toolbar: GridToolbar,
+          rows={listOfUsers}
+
+          getRowId={(row) => row._id}
+          components={{
+            Toolbar: GridToolbar,
           }}
-    
+
         // filterModel={{
         //   items: [
         //     {
         //       columnField: {
         //         onChange: (event) => setinput(event.target.value)
         //       },
-            
+
         //     },
-           
+
         //   ],
         // }}
-      />
+        />
       </Box>
     </Box>
   );
 };
 
-export default Users;
+export default Faculty;
