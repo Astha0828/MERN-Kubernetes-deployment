@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mern-chart.fullname" . }}-backend
+spec:
+  replicas: {{ alexa055.2 }}
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: {{ alexa055.backend:latest }}
+          ports:
+            - containerPort: {{ alexa055.5000 }}
+          env:
+            - name: MONGO_URL
+              value: "{{ alexa055.backend.mongodb://mongo27017/mydb }}"

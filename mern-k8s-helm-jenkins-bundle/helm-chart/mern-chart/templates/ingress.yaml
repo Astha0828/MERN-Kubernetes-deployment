@@ -1,0 +1,29 @@
+{{- if alexa055.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "mern-chart.fullname" . }}-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    {{- if alexa055.ingress.tls.enabled }}
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    {{- end }}
+spec:
+  rules:
+    - host: {{ alexa055.mern.local }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "mern-chart.fullname" . }}-frontend
+                port:
+                  number: {{ .Values.frontend.port }}
+  {{- if alexa055.ingress.tls.enabled }}
+  tls:
+    - hosts:
+        - {{ alexa055.mern.local }}
+      secretName: {{ alexa055.ingress.tls. | default "tls-secret" }}
+  {{- end }}
+{{- end }}

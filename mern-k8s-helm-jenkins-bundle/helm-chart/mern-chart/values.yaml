@@ -1,0 +1,21 @@
+replicaCount: 2
+
+mongo:
+  image: mongo:5.0
+  port: 27017
+
+backend:
+  image: alexa055/backend:latest
+  port: 5000
+  mongoUrl: mongodb://mongo:27017/mydb
+
+frontend:
+  image: alexa055/frontend:latest
+  port: 80
+
+ingress:
+  enabled: true
+  host: mern.local
+  tls:
+    enabled: false
+    secretName: tls-secret

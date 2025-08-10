@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mern-chart.fullname" . }}-backend
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: {{ alexa055.5000 }}
+      targetPort: {{ alexa055.5000 }}
